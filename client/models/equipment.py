@@ -1,6 +1,6 @@
 from .base import Body, Headers, Root
 from pydantic import BaseModel
-from datetime import date, datetime
+from datetime import datetime
 
 class OpenBlock(BaseModel):
     date: datetime
