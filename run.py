@@ -13,4 +13,5 @@ client = ApiClient(org_name, country, api_key, api_secret)
 
 equipment = client.get_equipment(10)
 sitelist = client.get_sites()
-print(type(sitelist.data_model))
+print(client.get_organization().data_model)
+#print(sitelist.data_model)

@@ -18,6 +18,5 @@ class Site(BaseModel):
     email_address: str
 
 
-class SitesResult(BaseModel):
-    headers: Headers
+class GetSitesResult(BaseModel):
     body: list[Site]

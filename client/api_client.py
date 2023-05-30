@@ -1,8 +1,9 @@
 from datetime import date
 from requests_ratelimiter import LimiterSession
 from client.api_info import ApiInfo
-from client.models.equipment import EquipmentResult
-from client.models.sites import SitesResult
+from client.models.get_equipment import GetEquipmentResult
+from client.models.get_organization import GetOrganizationResult
+from client.models.get_sites import GetSitesResult
 from client.utils import PaginatedAPI
 from client.utils import UrlBuilder
 
@@ -17,10 +18,12 @@ class SystemApiClient:
     def get_sites(self):
         params = self.api_info._create_default_params(locals())
         endpoint = self.url.get_endpoint('sites')  
-        return PaginatedAPI(self.session, endpoint, params, SitesResult).request()
+        return PaginatedAPI(self.session, endpoint, params, GetSitesResult).request()
     
     def get_organization(self):
-        pass
+        params = self.api_info._create_default_params(locals())
+        endpoint = self.url.get_endpoint('organization')
+        return PaginatedAPI(self.session, endpoint, params, GetOrganizationResult).request()
     
     def get_centers(self):
         pass
@@ -63,4 +66,4 @@ class SystemApiClient:
             raise ValueError('At least one of the following parameters must be provided: equipment_id, center_ids, modified_date_from and modified_date_to.')
         
         # Make the request
-        return PaginatedAPI(self.session, endpoint, params, EquipmentResult).request()
+        return PaginatedAPI(self.session, endpoint, params, GetEquipmentResult).request()
