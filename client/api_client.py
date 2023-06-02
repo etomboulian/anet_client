@@ -25,7 +25,7 @@ class SystemApiClient:
     def no_param_non_paginated_api_get_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel):
         params = self.api_info._create_default_params(local_vars)
         endpoint = self.url.get_endpoint(endpoint_name)
-        requester = Requester(HttpVerbs.get, self.session, endpoint, params, ret_type, False)
+        requester = Requester(HttpVerbs.get, self.session, endpoint, params, ret_type)
         return requester
 
     def get_sites(self):
@@ -87,7 +87,7 @@ class SystemApiClient:
         '''
         params = self.api_info._create_default_params(locals())
         endpoint = self.url.get_endpoint('centers')  
-        requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetCentersResponse, False)
+        requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetCentersResponse)
         return requester.request()
 
     def get_skills(self):
@@ -122,7 +122,7 @@ class SystemApiClient:
         '''
         params = self.api_info._create_default_params(locals())
         endpoint = self.url.get_endpoint('skipdates')  
-        requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetSkipDatesResponse, True)
+        requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetSkipDatesResponse)
         return requester.request()
         
 
@@ -161,7 +161,7 @@ class SystemApiClient:
         endpoint = self.url.get_endpoint('memberships')
         
 
-        requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetMembershipsResponse, True)
+        requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetMembershipsResponse)
         return requester.request()
 
     def get_equipment( 

@@ -18,14 +18,14 @@ class Requester(Generic[ReturnModelType]):
         "total_records_per_page": "50"
     }
 
-    def __init__(self, method: str, session: LimiterSession, endpoint: str, params: dict, ret_model: ReturnModelType, paginated: bool = False) -> None:
+    def __init__(self, method: str, session: LimiterSession, endpoint: str, params: dict, ret_model) -> None:
         self.method = method
         self.session = session
         self.endpoint = endpoint
         self.params = params
         self.ret_model = ret_model
         self.page_info = self.default_header.copy()
-        self.paginated = paginated
+        self.paginated = ret_model.ApiProperties.paginated
 
     def request(self):
         data = self.session.request(self.method, self.endpoint, params=self.params, headers=self.page_info)
