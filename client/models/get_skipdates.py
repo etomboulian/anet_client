@@ -20,3 +20,6 @@ class GetSkipDatesResponse(Root):
     headers: Headers
     body: list[SkipDate]
     
+    class ApiProperties:
+        paginated = True
+        sortable = True

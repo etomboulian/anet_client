@@ -12,3 +12,7 @@ class Skill(Body):
 
 class GetSkillsResponse(Root):
     body: list[Skill]
+
+    class ApiProperties:
+        paginated = False
+        sortable = False

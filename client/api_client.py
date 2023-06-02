@@ -198,4 +198,4 @@ class SystemApiClient:
         
         # Make the request
         requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetEquipmentResponse)
-        return requester.request(self)
+        return requester.request()

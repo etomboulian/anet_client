@@ -1,15 +1,13 @@
 from typing import TypeVar
-from client.api_client import SystemApiClient
-
 
 from client.models.base import Root, PageInfo
-from .requester import Requester
 
 ReturnModelType = TypeVar("ReturnModelType", bound=Root)
 class ApiResponse:
-    def __init__(self, requester: Requester, response_object: ReturnModelType) -> None:
+    def __init__(self, requester, response_object: ReturnModelType) -> None:
+        self.data = response_object
         self.headers = response_object.headers
-        self.data = response_object.body
+        self.body = response_object.body
         self.requester = requester
     
     # Call next pages using the iterator pattern

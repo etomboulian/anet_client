@@ -42,7 +42,7 @@ class TestGetOrganization(TestCase):
             os.environ.get('API_KEY', None),
             os.environ.get('API_SECRET', None)
         )
-        self.data = self.api_client.get_organization().data_model
+        self.data = self.api_client.get_organization().data
         return super().setUp()
     
     def test_response_successful(self):

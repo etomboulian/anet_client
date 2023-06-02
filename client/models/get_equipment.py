@@ -23,3 +23,7 @@ class Equipment(Body):
 
 class GetEquipmentResponse(Root):
     body: list[Equipment]
+
+    class ApiProperties:
+        paginated = True
+        sortable = False

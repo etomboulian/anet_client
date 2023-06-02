@@ -16,3 +16,7 @@ class Organization(Body):
 
 class GetOrganizationResponse(Root):
     body: list[Organization]
+
+    class ApiProperties:
+        paginated = False
+        sortable = False

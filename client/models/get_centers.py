@@ -82,3 +82,7 @@ class Center(Body):
 
 class GetCentersResponse(Root):
     body: list[Center]
+    
+    class ApiProperties:
+        paginated = False
+        sortable = False

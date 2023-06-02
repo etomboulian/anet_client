@@ -49,3 +49,7 @@ class Membership(Body):
 
 class GetMembershipsResponse(Root):
     body: list[Membership]
+
+    class ApiProperties:
+        paginated = True
+        sortable = False

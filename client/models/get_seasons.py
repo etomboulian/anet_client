@@ -45,3 +45,7 @@ class Season(Body):
 
 class GetSeasonsResponse(Root):
     body: list[Season]
+
+    class ApiProperties:
+        paginated = False
+        sortable = False
