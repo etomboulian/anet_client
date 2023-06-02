@@ -1,7 +1,7 @@
 
 from datetime import date, datetime
 from typing import Any
-from client.models.base import Root, Body
+from api_client.models.base import Root, Body
 
 
 class Membership(Body):

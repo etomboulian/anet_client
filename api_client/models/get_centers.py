@@ -1,4 +1,4 @@
-from client.models.base import Root, Body
+from api_client.models.base import Root, Body
 from datetime import time
 
 

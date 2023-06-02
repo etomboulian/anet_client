@@ -2,8 +2,8 @@ from datetime import date, datetime
 from pydantic import BaseModel
 from requests_ratelimiter import LimiterSession
 
-from client.utils import Requester, UrlBuilder, HttpVerbs, ApiInfo
-from client.models import (
+from api_client.utils import Requester, UrlBuilder, HttpVerbs, ApiInfo
+from api_client.models import (
     GetEquipmentResponse, 
     GetOrganizationResponse, 
     GetSitesResponse, 

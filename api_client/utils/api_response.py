@@ -1,6 +1,6 @@
 from typing import TypeVar
 
-from client.models.base import Root, PageInfo
+from api_client.models.base import Root, PageInfo
 
 ReturnModelType = TypeVar("ReturnModelType", bound=Root)
 class ApiResponse:

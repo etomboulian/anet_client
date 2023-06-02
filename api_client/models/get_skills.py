@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from client.models.base import Body, Root
+from api_client.models.base import Body, Root
 
 
 class Skill(Body):

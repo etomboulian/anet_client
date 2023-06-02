@@ -4,8 +4,8 @@ from requests import JSONDecodeError
 from requests_ratelimiter import LimiterSession
 
 from . import is_json
-from client.utils.api_response import ApiResponse
-from client.models.base import Root
+from api_client.utils.api_response import ApiResponse
+from api_client.models.base import Root
 
 
 ReturnModelType = TypeVar("ReturnModelType", bound=Root)
