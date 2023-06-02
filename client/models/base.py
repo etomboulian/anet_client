@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
-
 # Base Classes
 class PageInfo(BaseModel):
     page_number: int

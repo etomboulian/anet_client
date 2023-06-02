@@ -28,8 +28,9 @@ class Requester(Generic[ReturnModelType]):
         self.time = time.time()
 
     def request(self):
-        data = self.session.request(self.method, self.endpoint, params=self.params, headers=self.page_info)
         
+        data = self.session.request(self.method, self.endpoint, params=self.params, headers=self.page_info)
+        # print(data.url)
         # if for some reason the result is not Json try 10 more times to get JSON before returning None
         counter = 0
         while not is_json(data.content):
