@@ -14,5 +14,5 @@ class Organization(Body):
     cui_url: str | None
 
 
-class GetOrganizationResult(Root):
+class GetOrganizationResponse(Root):
     body: list[Organization]

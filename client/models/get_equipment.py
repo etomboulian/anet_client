@@ -21,5 +21,5 @@ class Equipment(Body):
     bookable_or_lendable: str
     open_blocks: list[OpenBlock]
 
-class GetEquipmentResult(Root):
+class GetEquipmentResponse(Root):
     body: list[Equipment]
