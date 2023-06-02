@@ -1,11 +1,11 @@
+import time
 from typing import Generic, TypeVar
 from requests import JSONDecodeError
 from requests_ratelimiter import LimiterSession
-from client.models.base import Root
-import time
 
 from . import is_json
 from client.utils.api_response import ApiResponse
+from client.models.base import Root
 
 
 ReturnModelType = TypeVar("ReturnModelType", bound=Root)
@@ -18,17 +18,16 @@ class Requester(Generic[ReturnModelType]):
         "total_records_per_page": "50"
     }
 
-    def __init__(self, method: str, session: LimiterSession, endpoint: str, params: dict, ret_model: ReturnModelType) -> None:
+    def __init__(self, method: str, session: LimiterSession, endpoint: str, params: dict, ret_model: ReturnModelType, paginated: bool = False) -> None:
         self.method = method
         self.session = session
         self.endpoint = endpoint
         self.params = params
         self.ret_model = ret_model
         self.page_info = self.default_header.copy()
-        self.time = time.time()
+        self.paginated = paginated
 
     def request(self):
-        
         data = self.session.request(self.method, self.endpoint, params=self.params, headers=self.page_info)
         # print(data.url)
         # if for some reason the result is not Json try 10 more times to get JSON before returning None
@@ -46,4 +45,12 @@ class Requester(Generic[ReturnModelType]):
 
         # Convert returned data to pydantic model class and return it
         obj_data = self.ret_model(**json_data)
-        return ApiResponse(obj_data)
+        return ApiResponse(self, obj_data)
+    
+    def request_next_page(self):
+        if not self.paginated:
+            raise Exception("Unable to get next page for a non paginated API")
+        
+        self.page_info["page_number"] += 1
+        return self.request()
+    
