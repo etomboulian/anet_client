@@ -1,7 +1,6 @@
 from datetime import date, datetime
 from pydantic import BaseModel
 from requests_ratelimiter import LimiterSession
-from api_client.models.post_validate_login import PostValidateLoginResponse
 
 from api_client.utils import Requester, UrlBuilder, HttpVerbs, ApiInfo, bool_to_str
 from api_client.models import (
@@ -12,7 +11,9 @@ from api_client.models import (
     GetSkillsResponse,
     GetSkipDatesResponse,
     GetCentersResponse,
-    GetMembershipsResponse
+    GetMembershipsResponse,
+    PostForgotPasswordResponse,
+    PostValidateLoginResponse
 )
 from api_client.utils.api_response import ApiResponse
 
@@ -207,13 +208,39 @@ class SystemApiClient:
         return requester.request()
     
     def post_validate_login(self, login_name: str, password: str) -> ApiResponse:
+        '''
+        PostValidateLoginAPI
+            - Validates if the provided customer information can be used to log into the system. (CUI?)
+            - This API will retrieve one record which will contain customer information of a customer who passes validation.
+
+        Parameters:
+            - login_name (str) -> The user's login name
+            - password (str) -> The user's password in plain text
+
+        Returns:
+            - ApiResponse object
+        '''
         params = self.api_info._create_default_params(None)
         endpoint = self.url.get_endpoint('validatelogin') 
         
         post_body = {}.update(login_name=login_name, password=password)
 
-        if login_name is None or password is None:
-            raise ValueError("Both login_name and password are required fields")
-
         requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostValidateLoginResponse, post_body=post_body)
+        return requester.request()
+    
+    def post_forgot_password(self, email: str) -> ApiResponse:
+        '''
+        PostForgotPasswordAPI
+            - The PostForgotPassword API sends a password reset email to the provided email address.
+        
+        Parameters:
+            - email (str) -> The email address of the user to reset the password for
+
+        Returns:
+            - Api Response object
+        '''
+        params = self.api_info._create_default_params(None)
+        endpoint = self.url.get_endpoint('forgotpassword')
+        post_body = {}.update(email=email)
+        requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotPasswordResponse, post_body=post_body)
         return requester.request()
