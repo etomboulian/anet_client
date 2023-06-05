@@ -210,9 +210,7 @@ class SystemApiClient:
         params = self.api_info._create_default_params(None)
         endpoint = self.url.get_endpoint('validatelogin') 
         
-        post_body = {}
-        post_body['login_name'] = login_name
-        post_body['password'] = password
+        post_body = {}.update(login_name=login_name, password=password)
 
         if login_name is None or password is None:
             raise ValueError("Both login_name and password are required fields")
