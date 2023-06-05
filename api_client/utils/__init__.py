@@ -11,6 +11,11 @@ def is_json(text: str) -> bool:
         return False
     return True
 
+def bool_to_str(condition: bool) -> str:
+    if not type(condition) == bool:
+        return ValueError('bool to str only accepts a boolean value')
+    return "Y" if condition is True else "N"
+
 
 class HttpVerbs(str, Enum):
     get = "GET"

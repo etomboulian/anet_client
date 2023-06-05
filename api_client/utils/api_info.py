@@ -18,9 +18,11 @@ class ApiInfo:
         return country_name in VALID_COUNTRIES
     
     def _extract_args(self, arg_dict):
-        request_args = arg_dict.copy()
-        request_args.pop("self")
-        request_args = { k:v for (k,v) in request_args.items() if v is not None }
+        request_args = {}
+        if arg_dict is not None:
+            request_args = arg_dict.copy()
+            request_args.pop("self")
+            request_args = { k:v for (k,v) in request_args.items() if v is not None }
         return request_args
     
     def _generate_signature(self):

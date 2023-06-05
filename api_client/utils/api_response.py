@@ -9,6 +9,9 @@ class ApiResponse:
         self.headers = response_object.headers
         self.body = response_object.body
         self.requester = requester
+
+    def request_next_page(self):
+        pass
     
     # Call next pages using the iterator pattern
     def __iter__(self):

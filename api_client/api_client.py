@@ -1,8 +1,9 @@
 from datetime import date, datetime
 from pydantic import BaseModel
 from requests_ratelimiter import LimiterSession
+from api_client.models.post_validate_login import PostValidateLoginResponse
 
-from api_client.utils import Requester, UrlBuilder, HttpVerbs, ApiInfo
+from api_client.utils import Requester, UrlBuilder, HttpVerbs, ApiInfo, bool_to_str
 from api_client.models import (
     GetEquipmentResponse, 
     GetOrganizationResponse, 
@@ -13,6 +14,7 @@ from api_client.models import (
     GetCentersResponse,
     GetMembershipsResponse
 )
+from api_client.utils.api_response import ApiResponse
 
 
 class SystemApiClient:
@@ -22,7 +24,7 @@ class SystemApiClient:
         self.session = LimiterSession(per_second=2, limit_statuses=[403])
         self.url = UrlBuilder(self.api_info.org_name, self.api_info.country)  
 
-    def no_param_non_paginated_api_get_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel):
+    def no_param_non_paginated_api_get_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel) -> ApiResponse:
         params = self.api_info._create_default_params(local_vars)
         endpoint = self.url.get_endpoint(endpoint_name)
         requester = Requester(HttpVerbs.get, self.session, endpoint, params, ret_type)
@@ -190,6 +192,10 @@ class SystemApiClient:
         '''
         # Prep the params and endpoint
         params = self.api_info._create_default_params(locals())
+    
+        if bookable_lendable := params.get('bookable_or_lendable', None) is not None: 
+            params['bookable_or_lendable'] = bool_to_str(bookable_or_lendable)
+    
         endpoint = self.url.get_endpoint('equipment')  
         
         # Do any necessary validation
@@ -198,4 +204,18 @@ class SystemApiClient:
         
         # Make the request
         requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetEquipmentResponse)
+        return requester.request()
+    
+    def post_validate_login(self, login_name: str, password: str) -> ApiResponse:
+        params = self.api_info._create_default_params(None)
+        endpoint = self.url.get_endpoint('validatelogin') 
+        
+        post_body = {}
+        post_body['login_name'] = login_name
+        post_body['password'] = password
+
+        if login_name is None or password is None:
+            raise ValueError("Both login_name and password are required fields")
+
+        requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostValidateLoginResponse, post_body=post_body)
         return requester.request()
