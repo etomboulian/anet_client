@@ -223,7 +223,7 @@ class SystemApiClient:
         params = self.api_info._create_default_params(None)
         endpoint = self.url.get_endpoint('validatelogin') 
         
-        post_body = {}.update(login_name=login_name, password=password)
+        post_body = {'login_name': login_name, 'password':password}
 
         requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostValidateLoginResponse, post_body=post_body)
         return requester.request()
@@ -241,6 +241,6 @@ class SystemApiClient:
         '''
         params = self.api_info._create_default_params(None)
         endpoint = self.url.get_endpoint('forgotpassword')
-        post_body = {}.update(email=email)
+        post_body = {"email": email}
         requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotPasswordResponse, post_body=post_body)
         return requester.request()

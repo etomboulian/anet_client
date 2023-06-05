@@ -23,7 +23,7 @@ start = time.time()
 #centers_data = client.get_centers(); print(f"[t+{time.time()-start:.2f}] -> {centers_data.data}"); input()
 #memberships_data = client.get_memberships(); print(f"[t+{time.time()-start:.2f}] -> {memberships_data.data}"); input()
 login_result = client.post_validate_login('evan.tomboulian@activenetwork.com', 'Password@1'); print(f"[t+{time.time()-start:.2f}] -> {login_result.data}"); input()
-
+forgot_password = client.post_forgot_password('etomboulian@gmail.com'); print(f"[t+{time.time()-start:.2f}] -> {forgot_password.data}"); input()
 
 #for i in range(1000):
 #    print(f"[t+{time.time()-start:.2f}] -> {client.get_sites().data}")
