@@ -12,7 +12,7 @@ from api_client.models import (
     GetSkipDatesResponse,
     GetCentersResponse,
     GetMembershipsResponse,
-    PostForgotPasswordResponse,
+    PostForgotResponse,
     PostValidateLoginResponse
 )
 from api_client.utils.api_response import ApiResponse
@@ -231,7 +231,7 @@ class SystemApiClient:
     def post_forgot_password(self, email: str) -> ApiResponse:
         '''
         PostForgotPasswordAPI
-            - The PostForgotPassword API sends a password reset email to the provided email address.
+            - Sends a password reset email to the acccount with the provided email address.
         
         Parameters:
             - email (str) -> The email address of the user to reset the password for
@@ -242,5 +242,22 @@ class SystemApiClient:
         params = self.api_info._create_default_params(None)
         endpoint = self.url.get_endpoint('forgotpassword')
         post_body = {"email": email}
-        requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotPasswordResponse, post_body=post_body)
+        requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotResponse, post_body)
+        return requester.request()
+    
+    def post_forgot_login_name(self, email) -> ApiResponse:
+        '''
+        PostForgotLoginNameAPI
+            - Send an email containing the account's login name
+        
+        Parameters:
+            - email (str) -> The email address of the user to reset the password for
+
+        Returns:
+            - Api Response object
+        '''
+        params = self.api_info._create_default_params(None)
+        endpoint = self.url.get_endpoint('forgotloginname')
+        post_body = {"email": email}
+        requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotResponse, post_body)
         return requester.request()

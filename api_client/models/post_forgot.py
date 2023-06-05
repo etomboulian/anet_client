@@ -2,7 +2,7 @@
 from api_client.models.base import Root
 
 
-class PostForgotPasswordResponse(Root):
+class PostForgotResponse(Root):
     body: list
 
     class ApiProperties:
