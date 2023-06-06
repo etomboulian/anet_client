@@ -1,8 +1,7 @@
-from .base import Body, Headers, Root
-from pydantic import BaseModel
 from datetime import datetime
+from api_client.models.base import Body, Root
 
-class OpenBlock(BaseModel):
+class OpenBlock(Body):
     date: datetime
     time_block_on_date: str
 

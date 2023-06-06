@@ -25,13 +25,13 @@ class SystemApiClient:
         self.session = LimiterSession(per_second=2, limit_statuses=[403])
         self.url = UrlBuilder(self.api_info.org_name, self.api_info.country)  
 
-    def no_param_non_paginated_api_get_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel) -> ApiResponse:
+    def no_param_non_paginated_api_get_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel) -> Requester:
         params = self.api_info._create_default_params(local_vars)
         endpoint = self.url.get_endpoint(endpoint_name)
         requester = Requester(HttpVerbs.get, self.session, endpoint, params, ret_type)
         return requester
 
-    def get_sites(self):
+    def get_sites(self) -> ApiResponse:
         '''
         GetSitesAPI  
             - Returns a list of sites for your organization (by site_name in ascending order).
@@ -46,7 +46,7 @@ class SystemApiClient:
         requester = self.no_param_non_paginated_api_get_request(locals(), 'sites', GetSitesResponse)
         return requester.request() 
     
-    def get_organization(self):
+    def get_organization(self) -> ApiResponse:
         '''
         GetOrganizationAPI
             - Returns information about the organization.
@@ -61,7 +61,7 @@ class SystemApiClient:
         requester = self.no_param_non_paginated_api_get_request(locals(), 'organization', GetOrganizationResponse)
         return requester.request() 
     
-    def get_seasons(self):
+    def get_seasons(self) -> ApiResponse:
         '''
         GetSeasonsAPI
             - Returns a list of seasons for your organization (by season_name in ascending order)
@@ -76,7 +76,7 @@ class SystemApiClient:
         requester = self.no_param_non_paginated_api_get_request(locals(), 'seasons', GetSeasonsResponse)
         return requester.request()
     
-    def get_centers(self, show_on_member_app: bool = None):
+    def get_centers(self, show_on_member_app: bool = None) -> ApiResponse:
         '''
         GetCentersAPI
             - Returns a list of centers for your organization (by center_name in ascending order).
@@ -93,7 +93,7 @@ class SystemApiClient:
         requester = Requester(HttpVerbs.get, self.session, endpoint, params, GetCentersResponse)
         return requester.request()
 
-    def get_skills(self):
+    def get_skills(self) -> ApiResponse:
         '''
         GetSkillsAPI
             - Returns a list of skills for your organization (by skill_id in ascending order).
@@ -108,7 +108,7 @@ class SystemApiClient:
         requester = self.no_param_non_paginated_api_get_request(locals(), 'skills', GetSkillsResponse)
         return requester.request()
 
-    def get_skip_dates(self, facility_id: int):
+    def get_skip_dates(self, facility_id: int) -> ApiResponse:
         '''
         GetSkipDatesAPI
             - Returns a list of skip dates for the specified facility (by start date in ascending order).
@@ -138,7 +138,7 @@ class SystemApiClient:
             package_status_id: int = None,
             active_memberships_only: bool = None,
             encode_customer_id: str = None
-            ):
+            ) -> ApiResponse:
         '''
         GetMembershipsAPI
             - Returns membership information for your request parameters (by membership_id in ascending order).
@@ -176,7 +176,7 @@ class SystemApiClient:
         modified_date_to: date = None,
         show_on_member_app: bool = None,
         open_block_date_from: date = None,
-    ):
+        ) -> ApiResponse:
         '''
         ** Note: At least one of the following parameters must be provided to this method: 
         'equipment_id', 'center_ids', 'modified_date_from' and 'modified_date_to'.

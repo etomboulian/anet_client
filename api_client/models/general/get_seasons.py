@@ -1,10 +1,8 @@
 from datetime import date, datetime
-from datetime import date
-from pydantic import BaseModel
-from .base import Body, Root
+from api_client.models.base import Body, Root
 
 
-class ChildSeason(BaseModel):
+class ChildSeason(Body):
     child_season_id: int
     child_season: str | None
     start_date: date | None

@@ -1,13 +1,11 @@
-from pydantic import BaseModel
+from api_client.models.base import Root, Body
 
-from api_client.models.base import Root
-
-class Headers(BaseModel):
+class Headers(Body):
     response_code: str
     response_message: str
 
 
-class Site(BaseModel):
+class Site(Body):
     site_id: int
     site_name: str
     address1: str

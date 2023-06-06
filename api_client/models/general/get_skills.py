@@ -1,5 +1,3 @@
-from pydantic import BaseModel
-
 from api_client.models.base import Body, Root
 
 

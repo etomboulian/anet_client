@@ -1,10 +1,4 @@
-from pydantic import BaseModel
 from api_client.models.base import Body, Root
-
-
-class Headers(BaseModel):
-    response_code: str
-    response_message: str
 
 
 class SkipDate(Body):
@@ -17,7 +11,6 @@ class SkipDate(Body):
 
 
 class GetSkipDatesResponse(Root):
-    headers: Headers
     body: list[SkipDate]
     
     class ApiProperties:

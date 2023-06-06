@@ -1,5 +1,5 @@
-from api_client.models.base import Root, Body
 from datetime import time
+from api_client.models.base import Root, Body
 
 
 class DefaultHoursOfOperation(Body):

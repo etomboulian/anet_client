@@ -1,4 +1,3 @@
-
 from datetime import date, datetime
 from typing import Any
 from api_client.models.base import Root, Body

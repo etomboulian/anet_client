@@ -1,5 +1,4 @@
-from pydantic import BaseModel
-from .base import Root, Body
+from api_client.models.base import Root, Body
 
 class Headers(Body):
     response_code: str
