@@ -15,7 +15,12 @@ from api_client.models import (
     PostForgotResponse,
     PostValidateLoginResponse,
     GetActivitiesResponse,
-    GetActivityDetailResponse
+    GetActivityDetailResponse,
+    GetActivityCategoriesResponse,
+    GetActivityOtherCategoriesResponse,
+    GetActivityFeesResponse, 
+    GetActivityTypesResponse,
+    GetActivityEnrollmentResponse
 )
 from api_client.utils.api_response import ApiResponse
 
@@ -256,28 +261,30 @@ class SystemApiClient:
         requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotResponse, post_body)
         return requester.request()
     
-    def get_activities(self,
-                       activity_name: str = None,
-                       activity_number: str = None,
-                       activity_type_id: int = None,
-                       parent_season_id: int = None,
-                       activity_status_id: int = None,
-                       category_id: int = None,
-                       other_category_id: int = None,
-                       site_ids: str = None,
-                       center_ids: str = None,
-                       days_of_week: str = None,
-                       first_date_range_from: date = None,
-                       first_date_range_to: date = None,
-                       last_date_range_from: date = None,
-                       last_date_range_to: date = None,
-                       modified_date_from: date | datetime = None,
-                       modified_date_to: date | datetime = None,
-                       gender: int = None,
-                       age_from: int = None,
-                       age_to: int = None,
-                       skill_id: int = None,
-                       show_on_member_app: bool = None) -> ApiResponse:
+    def get_activities(
+            self,
+            activity_name: str = None,
+            activity_number: str = None,
+            activity_type_id: int = None,
+            parent_season_id: int = None,
+            activity_status_id: int = None,
+            category_id: int = None,
+            other_category_id: int = None,
+            site_ids: str = None,
+            center_ids: str = None,
+            days_of_week: str = None,
+            first_date_range_from: date = None,
+            first_date_range_to: date = None,
+            last_date_range_from: date = None,
+            last_date_range_to: date = None,
+            modified_date_from: date | datetime = None,
+            modified_date_to: date | datetime = None,
+            gender: int = None,
+            age_from: int = None,
+            age_to: int = None,
+            skill_id: int = None,
+            show_on_member_app: bool = None
+            ) -> ApiResponse:
         '''GetActivitiesAPI - Returns a list of activities for your request parameters (by activity_id in ascending order).
         
         Notes:
@@ -316,8 +323,31 @@ class SystemApiClient:
         return req()
     
     def get_activity_detail(self, activity_id: int) -> ApiResponse:
-        params = locals(); params.pop('activity_id')
-        req = self.make_get_request(params, f"activities/{activity_id}", GetActivityDetailResponse)
-        print(req.params)
+        req = self.make_get_request(None, f"activities/{activity_id}", GetActivityDetailResponse)
+        return req()
+
+    def get_activity_categories(self, show_on_member_app: str = None) -> ApiResponse:
+        req = self.make_get_request(locals(), "activitycategories", GetActivityCategoriesResponse)
         return req()
     
+    def get_activity_other_categories(self) -> ApiResponse:
+        req = self.make_get_request(None, "activityothercategories", GetActivityOtherCategoriesResponse)
+        return req()
+    
+    def get_activity_fees(self, activity_id: int) -> ApiResponse:
+        req = self.make_get_request(None, f"activities/{activity_id}/fees", GetActivityFeesResponse)
+        return req()
+    
+    def get_activity_types(self, show_on_member_app: str = None) -> ApiResponse:
+        req = self.make_get_request(locals(), "activitytypes", GetActivityTypesResponse)
+        return req()
+    
+    def get_activity_enrollment(
+            self, 
+            activity_id: int = None, 
+            customer_ids: str = None, 
+            enrollment_status: int = None, 
+            date_after: datetime = None
+            ) -> ApiResponse:
+        req = self.make_get_request(locals(), "activityenrollment", GetActivityEnrollmentResponse)
+        return req()

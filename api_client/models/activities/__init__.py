@@ -1,2 +1,7 @@
 from .get_activities import GetActivitiesResponse
 from .get_activity_detail import GetActivityDetailResponse
+from .get_activity_categories import GetActivityCategoriesResponse
+from .get_activity_other_categories import GetActivityOtherCategoriesResponse
+from .get_activity_fees import GetActivityFeesResponse
+from .get_activity_types import GetActivityTypesResponse
+from .get_activity_enrollment import GetActivityEnrollmentResponse

@@ -13,7 +13,12 @@ from .general import (
 
 from .activities import (
     GetActivitiesResponse,
-    GetActivityDetailResponse
+    GetActivityDetailResponse,
+    GetActivityCategoriesResponse,
+    GetActivityOtherCategoriesResponse,
+    GetActivityFeesResponse,
+    GetActivityTypesResponse,
+    GetActivityEnrollmentResponse
 )
 
 from .facility import (
