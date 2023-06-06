@@ -29,3 +29,11 @@ from .activities import (
 from .facility import (
     GetEquipmentResponse
 )
+
+from .membership import (
+    GetMembershipsResponse,
+    GetMembershipPackagesResponse,
+    GetMembershipPackageCategoryResponse,
+    GetMembershipUsagesResponse,
+    GetMembershipPackageFeesResponse
+)
