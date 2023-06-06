@@ -2,7 +2,7 @@ import os
 import dotenv
 from unittest import TestCase
 from api_client import SystemApiClient
-from api_client.models.get_organization import GetOrganizationResponse, Organization
+from api_client.models.general.get_organization import GetOrganizationResponse, Organization
 
 
 dotenv.load_dotenv()

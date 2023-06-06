@@ -1,4 +1,3 @@
-from .get_equipment import GetEquipmentResponse
 from .get_organization import GetOrganizationResponse
 from .get_sites import GetSitesResponse
 from .get_seasons import GetSeasonsResponse

@@ -11,3 +11,11 @@ from .general import (
     PostValidateLoginResponse,
     PostForgotResponse
 )
+
+from .activities import (
+    GetActivitiesResponse
+)
+
+from .facility import (
+    GetEquipmentResponse
+)
