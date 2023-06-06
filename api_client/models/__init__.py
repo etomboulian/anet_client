@@ -1,6 +1,5 @@
 
 from .general import (
-    GetEquipmentResponse,
     GetOrganizationResponse,
     GetSitesResponse,
     GetSeasonsResponse,
@@ -13,7 +12,8 @@ from .general import (
 )
 
 from .activities import (
-    GetActivitiesResponse
+    GetActivitiesResponse,
+    GetActivityDetailResponse
 )
 
 from .facility import (

@@ -33,7 +33,7 @@ class Requester(Generic[ReturnModelType]):
         self.paginated = ret_model.ApiProperties.paginated
         self.post_body = post_body
 
-    def request(self):
+    def __call__(self):
         data = self.session.request(self.method, self.endpoint, params=self.params, headers=self.page_info, json=self.post_body)
         
         # if for some reason the result is not Json try 10 more times to get JSON before returning None
@@ -48,7 +48,7 @@ class Requester(Generic[ReturnModelType]):
             json_data = data.json()
         except JSONDecodeError:
             return None
-
+        #print(json_data)
         # Convert returned data to pydantic model class and return it
         obj_data = self.ret_model(**json_data)
         return ApiResponse(self, obj_data)
