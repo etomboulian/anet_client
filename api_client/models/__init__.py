@@ -18,7 +18,12 @@ from .activities import (
     GetActivityOtherCategoriesResponse,
     GetActivityFeesResponse,
     GetActivityTypesResponse,
-    GetActivityEnrollmentResponse
+    GetActivityEnrollmentResponse,
+    GetActivityExpandedDetailResponse,
+    GetActivityDatesResponse,
+    PostActivityEnrollmentPerDayResponse,
+    DeleteActivityEnrollmentPerDayResponse,
+    PostActivityDropInPaymentResponse
 )
 
 from .facility import (

@@ -20,7 +20,12 @@ from api_client.models import (
     GetActivityOtherCategoriesResponse,
     GetActivityFeesResponse, 
     GetActivityTypesResponse,
-    GetActivityEnrollmentResponse
+    GetActivityEnrollmentResponse,
+    GetActivityExpandedDetailResponse,
+    GetActivityDatesResponse,
+    PostActivityEnrollmentPerDayResponse,
+    DeleteActivityEnrollmentPerDayResponse,
+    PostActivityDropInPaymentResponse
 )
 from api_client.utils.api_response import ApiResponse
 
@@ -35,14 +40,17 @@ class SystemApiClient:
     def make_get_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel) -> Requester:
         params = self.api_info._create_default_params(local_vars)
         endpoint = self.url.get_endpoint(endpoint_name)
-        requester = Requester(HttpVerbs.get, self.session, endpoint, params, ret_type, None)
-        return requester
+        return Requester(HttpVerbs.get, self.session, endpoint, params, ret_type, None)
 
     def make_post_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel, post_body: dict = None) -> Requester:
         params = self.api_info._create_default_params(local_vars)
         endpoint = self.url.get_endpoint(endpoint_name)
-        requester = Requester(HttpVerbs.post, self.session, endpoint, params, ret_type, post_body)
-        return requester
+        return Requester(HttpVerbs.post, self.session, endpoint, params, ret_type, post_body)
+    
+    def make_delete_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel, body: dict = None) -> Requester:
+        params = self.api_info._create_default_params(local_vars)
+        endpoint = self.url.get_endpoint(endpoint_name)
+        return Requester(HttpVerbs.delete, self.session, endpoint, params, ret_type, body)
 
     def get_sites(self) -> ApiResponse:
         '''
@@ -351,3 +359,52 @@ class SystemApiClient:
             ) -> ApiResponse:
         req = self.make_get_request(locals(), "activityenrollment", GetActivityEnrollmentResponse)
         return req()
+    
+    def get_activity_expanded_detail(
+            self,
+            activity_ids: int,
+            enrollment_status: int = None,
+            date_after: date | datetime = None
+    ) -> ApiResponse:
+        req = self.make_get_request(locals(), "activityexpandeddetail", GetActivityExpandedDetailResponse)
+        return req()
+    
+    def get_activity_dates(
+            self,
+            activity_id: int
+    ) -> ApiResponse:
+        req = self.make_get_request(locals(), "activitydates", GetActivityDatesResponse)
+        return req()
+    
+    def post_activity_enrollment_per_day(
+            self,
+            activity_id: int,
+            activity_date_id: int,
+            customer_id: int
+    ) -> ApiResponse:
+        post_body = { "activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id}
+        req = self.make_post_request(None, "activityenrollmentperday", PostActivityEnrollmentPerDayResponse, post_body)
+        return req()
+    
+    def delete_activity_enrollment_per_day(
+            self,
+            activity_id: int,
+            activity_date_id: int,
+            customer_id: int,
+            reservation_id: int
+    ):
+        post_body = { "activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id, "reservation_id": reservation_id}
+        req = self.make_delete_request(None, 'activityenrollmentperday', DeleteActivityEnrollmentPerDayResponse, post_body)
+        return req()
+
+    def post_activity_drop_in_payment(
+            self,
+            activity_id: int,
+            activity_date_id: int,
+            customer_id: int,
+            login_customer_id: int
+            ) -> ApiResponse:
+        post_body = {"activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id, "login_customer_id": login_customer_id}
+        req = self.make_post_request(None, 'activitydropinpayment', PostActivityDropInPaymentResponse, post_body)
+        return req()
+    
