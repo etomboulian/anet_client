@@ -14,3 +14,4 @@ class GetActivityOtherCategoriesResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "activityothercategories"

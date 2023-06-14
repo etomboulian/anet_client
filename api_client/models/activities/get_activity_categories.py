@@ -15,3 +15,4 @@ class GetActivityCategoriesResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "activitycategories"

@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from pydantic import BaseModel
 from requests_ratelimiter import LimiterSession
+from api_client.models.base import Root
 
 from api_client.utils import Requester, UrlBuilder, HttpVerbs, ApiInfo, bool_to_str
 from api_client.models import (
@@ -45,19 +46,19 @@ class SystemApiClient:
         self.session = LimiterSession(per_second=2, limit_statuses=[403])
         self.url = UrlBuilder(self.api_info.org_name, self.api_info.country)  
     
-    def make_get_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel) -> Requester:
+    def make_get_request(self, local_vars: dict, ret_type: Root) -> Requester:
         params = self.api_info._create_default_params(local_vars)
-        endpoint = self.url.get_endpoint(endpoint_name)
+        endpoint = self.url.get_endpoint(ret_type.ApiProperties.endpoint)
         return Requester(HttpVerbs.get, self.session, endpoint, params, ret_type, None)
 
-    def make_post_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel, post_body: dict = None) -> Requester:
+    def make_post_request(self, local_vars: dict, ret_type: BaseModel, post_body: dict = None) -> Requester:
         params = self.api_info._create_default_params(local_vars)
-        endpoint = self.url.get_endpoint(endpoint_name)
+        endpoint = self.url.get_endpoint(ret_type.ApiProperties.endpoint)
         return Requester(HttpVerbs.post, self.session, endpoint, params, ret_type, post_body)
     
-    def make_delete_request(self, local_vars: dict, endpoint_name: str, ret_type: BaseModel, body: dict = None) -> Requester:
+    def make_delete_request(self, local_vars: dict, ret_type: BaseModel, body: dict = None) -> Requester:
         params = self.api_info._create_default_params(local_vars)
-        endpoint = self.url.get_endpoint(endpoint_name)
+        endpoint = self.url.get_endpoint(ret_type.ApiProperties.endpoint)
         return Requester(HttpVerbs.delete, self.session, endpoint, params, ret_type, body)
 
     def get_sites(self) -> ApiResponse:
@@ -71,9 +72,9 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        # requester = self.no_param_non_paginated_api_get_request(locals(), 'sites', GetSitesResponse)
-        req = self.make_get_request(locals(), 'sites', GetSitesResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetSitesResponse)
+        return request()
     
     def get_organization(self) -> ApiResponse:
         '''
@@ -86,9 +87,9 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        # requester = self.no_param_non_paginated_api_get_request(locals(), 'organization', GetOrganizationResponse)
-        req = self.make_get_request(locals(), 'organization', GetOrganizationResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetOrganizationResponse)
+        return request()
     
     def get_seasons(self) -> ApiResponse:
         '''
@@ -101,9 +102,9 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        # requester = self.no_param_non_paginated_api_get_request(locals(), 'seasons', GetSeasonsResponse)
-        req = self.make_get_request(locals(), 'seasons', GetSeasonsResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetSeasonsResponse)
+        return request()
     
     def get_centers(self, show_on_member_app: bool = None) -> ApiResponse:
         '''
@@ -118,8 +119,9 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        req = self.make_get_request(locals(), 'centers', GetCentersResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetCentersResponse)
+        return request()
 
     def get_skills(self) -> ApiResponse:
         '''GetSkillsAPI - Returns a list of skills for your organization (by skill_id in ascending order).
@@ -131,8 +133,9 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        req = self.make_get_request(locals(), 'skills', GetSkillsResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetSkillsResponse)
+        return request()
 
     def get_skip_dates(self, facility_id: int) -> ApiResponse:
         '''GetSkipDatesAPI - Returns a list of skip dates for the specified facility (by start date in ascending order).
@@ -150,8 +153,9 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        req = self.make_get_request(locals(), 'skipdates', GetSkipDatesResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetSkipDatesResponse)
+        return request()
         
     def get_memberships(
             self,
@@ -183,8 +187,9 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        req = self.make_get_request(locals(), 'memberships', GetMembershipsResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetMembershipsResponse)
+        return request()
 
     def get_equipment( 
         self,
@@ -215,15 +220,17 @@ class SystemApiClient:
             An object representing the ApiResponse
         
         '''
-        # Prep the params and endpoint
-        req = self.make_get_request(locals(), 'equipment', GetEquipmentResponse)
+        request_params = locals()
         
         # Do any necessary validation
         if not equipment_id or center_ids or (modified_date_from and modified_date_to):
             raise ValueError('At least one of the following parameters must be provided: equipment_id, center_ids, modified_date_from and modified_date_to.')
         
+        # Prep the params and endpoint
+        request = self.make_get_request(request_params, GetEquipmentResponse)
+        
         # Make the request
-        return req()
+        return request()
     
     def post_validate_login(self, login_name: str, password: str) -> ApiResponse:
         '''PostValidateLoginAPI - Validates if the provided customer information can be used to log into the system. (CUI?)
@@ -240,10 +247,10 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        params = locals()
+        request_params = locals()
         post_body = {'login_name': login_name, 'password':password}
-        req = self.make_post_request(params, 'validatelogin', PostValidateLoginResponse, post_body)
-        return req()
+        request = self.make_post_request(request_params, PostValidateLoginResponse, post_body)
+        return request()
     
     def post_forgot_password(self, email: str) -> ApiResponse:
         '''PostForgotPasswordAPI - Sends a password reset email to the acccount with the provided email address.
@@ -255,11 +262,10 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        params = self.api_info._create_default_params(None)
-        endpoint = self.url.get_endpoint('forgotpassword')
-        post_body = {"email": email}
-        requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotResponse, post_body)
-        return requester()
+        request_params = locals()
+        post_body_data = {"email": email}
+        request = self.make_post_request(request_params, PostForgotResponse, post_body_data)
+        return request()
     
     def post_forgot_login_name(self, email) -> ApiResponse:
         '''PostForgotLoginNameAPI - Emails the login name to the provided email address.
@@ -271,11 +277,10 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        params = self.api_info._create_default_params(None)
-        endpoint = self.url.get_endpoint('forgotloginname')
-        post_body = {"email": email}
-        requester = Requester(HttpVerbs.post, self.session, endpoint, params, PostForgotResponse, post_body)
-        return requester.request()
+        request_params = locals()
+        post_body_data = {"email": email}
+        request = self.make_post_request(request_params, PostForgotResponse, post_body_data)
+        return request()
     
     def get_activities(
             self,
@@ -335,28 +340,33 @@ class SystemApiClient:
             An object representing the ApiResponse
 
         '''
-        req = self.make_get_request(locals(), 'activities', GetActivitiesResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetActivitiesResponse)
+        return request()
     
     def get_activity_detail(self, activity_id: int) -> ApiResponse:
-        req = self.make_get_request(None, f"activities/{activity_id}", GetActivityDetailResponse)
-        return req()
+        endpoint = f"activities/{activity_id}"
+        GetActivityDetailResponse.ApiProperties.endpoint = endpoint
+        request = self.make_get_request(None, GetActivityDetailResponse)
+        return request()
 
     def get_activity_categories(self, show_on_member_app: str = None) -> ApiResponse:
-        req = self.make_get_request(locals(), "activitycategories", GetActivityCategoriesResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetActivityCategoriesResponse)
+        return request()
     
     def get_activity_other_categories(self) -> ApiResponse:
-        req = self.make_get_request(None, "activityothercategories", GetActivityOtherCategoriesResponse)
-        return req()
+        request = self.make_get_request(None, GetActivityOtherCategoriesResponse)
+        return request()
     
     def get_activity_fees(self, activity_id: int) -> ApiResponse:
-        req = self.make_get_request(None, f"activities/{activity_id}/fees", GetActivityFeesResponse)
-        return req()
+        GetActivityFeesResponse.ApiProperties.endpoint = f"activities/{activity_id}/fees"
+        request = self.make_get_request(None, GetActivityFeesResponse)
+        return request()
     
     def get_activity_types(self, show_on_member_app: str = None) -> ApiResponse:
-        req = self.make_get_request(locals(), "activitytypes", GetActivityTypesResponse)
-        return req()
+        request = self.make_get_request(locals(), GetActivityTypesResponse)
+        return request()
     
     def get_activity_enrollment(
             self, 
@@ -365,8 +375,9 @@ class SystemApiClient:
             enrollment_status: int = None, 
             date_after: datetime = None
             ) -> ApiResponse:
-        req = self.make_get_request(locals(), "activityenrollment", GetActivityEnrollmentResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetActivityEnrollmentResponse)
+        return request()
     
     def get_activity_expanded_detail(
             self,
@@ -374,15 +385,17 @@ class SystemApiClient:
             enrollment_status: int = None,
             date_after: date | datetime = None
     ) -> ApiResponse:
-        req = self.make_get_request(locals(), "activityexpandeddetail", GetActivityExpandedDetailResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetActivityExpandedDetailResponse)
+        return request()
     
     def get_activity_dates(
             self,
             activity_id: int
     ) -> ApiResponse:
-        req = self.make_get_request(locals(), "activitydates", GetActivityDatesResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetActivityDatesResponse)
+        return request()
     
     def post_activity_enrollment_per_day(
             self,
@@ -391,8 +404,8 @@ class SystemApiClient:
             customer_id: int
     ) -> ApiResponse:
         post_body = { "activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id}
-        req = self.make_post_request(None, "activityenrollmentperday", PostActivityEnrollmentPerDayResponse, post_body)
-        return req()
+        request = self.make_post_request(None, "activityenrollmentperday", PostActivityEnrollmentPerDayResponse, post_body)
+        return request()
     
     def delete_activity_enrollment_per_day(
             self,
@@ -402,8 +415,8 @@ class SystemApiClient:
             reservation_id: int
     ):
         post_body = { "activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id, "reservation_id": reservation_id}
-        req = self.make_delete_request(None, 'activityenrollmentperday', DeleteActivityEnrollmentPerDayResponse, post_body)
-        return req()
+        request = self.make_delete_request(None, DeleteActivityEnrollmentPerDayResponse, post_body)
+        return request()
 
     def post_activity_drop_in_payment(
             self,
@@ -413,8 +426,8 @@ class SystemApiClient:
             login_customer_id: int
             ) -> ApiResponse:
         post_body = {"activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id, "login_customer_id": login_customer_id}
-        req = self.make_post_request(None, 'activitydropinpayment', PostActivityDropInPaymentResponse, post_body)
-        return req()
+        request = self.make_post_request(None, PostActivityDropInPaymentResponse, post_body)
+        return request()
     
     def get_customers(
             self, 
@@ -455,12 +468,13 @@ class SystemApiClient:
         Returns:
             An object representing the ApiResponse
         '''
-        req = self.make_get_request(locals(), 'customers', GetCustomersResponse)
-
+        request_params = locals()
+        
         if not (modified_date_from or activity_id or customer_ids or alternate_key_ids or prospect):
             raise ApiException('At least of of the parameters: modified_date_from or activity_id or customer_ids or alternate_key_ids must be provided for this API call')
         
-        return req()
+        request = self.make_get_request(request_params, GetCustomersResponse)
+        return request()
 
     def get_custom_questions(
             self,
@@ -478,14 +492,15 @@ class SystemApiClient:
         GetCustomQuestionsAPI - Return a list of custom questions for your request parameters (by custom_question_id in ascending order
 
         '''
-        params = locals()
+        request_params = locals()
         required_params = (custom_question_id, activity_id, program_id, package_id, event_type_id, process)
+
         required_param_count = len(list(param for param in required_params if param is not None))
         if required_param_count != 1:
             raise ApiException("Only one of custom_question_id, activity_id, program_id, package_id, event_type_id, process is required and can be specified for this API call")
         
-        req = self.make_get_request(params, 'customquestions', GetCustomQuestionsResponse)
-        return req()
+        request = self.make_get_request(request_params, GetCustomQuestionsResponse)
+        return request()
     
     def get_custom_question_answers(
             self,
@@ -498,14 +513,15 @@ class SystemApiClient:
         '''
         GetCustomQuestionAnswersAPI - Return a list of custom question answers for your request parameters ((by customer_id, and then by question in ascending order).
         '''
-        req = self.make_get_request(locals(), 'customquestionanswers', GetCustomQuestionAnswerResponse)
+        request_params = locals()
 
         required_params = (activity_id, package_id, program_id, permit_number, customer_id)
         required_param_count = len(list(param for param in required_params if param is not None))
         if required_param_count < 1:
             raise ApiException("One or more of the required parameters must be specified for this API call")
         
-        return req()
+        request = self.make_get_request(request_params, GetCustomQuestionAnswerResponse)
+        return request()
     
     def get_prospect_custom_question_answers(
             self,
@@ -514,12 +530,14 @@ class SystemApiClient:
         '''
         GetProspectCustomQuestionAnswersAPI - Return a list of prospect custom question answers for your request parameters (by customer_id in ascending order).
         '''
-        req = self.make_get_request(locals(), 'prospectcustomquestionanswers', GetProspectCustomQuestionAnswersResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetProspectCustomQuestionAnswersResponse)
+        return request()
     
     def get_family_members(
             self, 
             family_ids: str
     ) -> ApiResponse:
-        req = self.make_get_request(locals(), 'familymembers', GetFamilyMembersResponse)
-        return req()
+        request_params = locals()
+        request = self.make_get_request(request_params, GetFamilyMembersResponse)
+        return request()

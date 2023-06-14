@@ -26,3 +26,4 @@ class GetEquipmentResponse(Root):
     class ApiProperties:
         paginated = True
         sortable = False
+        endpoint = 'equipment'

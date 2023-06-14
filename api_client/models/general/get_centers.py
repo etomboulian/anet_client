@@ -86,3 +86,4 @@ class GetCentersResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "centers"

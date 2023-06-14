@@ -41,3 +41,4 @@ class GetActivityEnrollmentResponse(Root):
     class ApiProperties:
         paginated = True
         sortable = False
+        endpoint = "activityenrollment"

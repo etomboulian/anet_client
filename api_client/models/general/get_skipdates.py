@@ -16,3 +16,4 @@ class GetSkipDatesResponse(Root):
     class ApiProperties:
         paginated = True
         sortable = True
+        endpoint = "skipdates"

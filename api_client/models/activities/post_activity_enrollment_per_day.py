@@ -11,4 +11,5 @@ class PostActivityEnrollmentPerDayResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "activityenrollmentperday"
         

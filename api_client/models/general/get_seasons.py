@@ -47,3 +47,4 @@ class GetSeasonsResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "seasons"

@@ -24,3 +24,4 @@ class GetSitesResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "sites"

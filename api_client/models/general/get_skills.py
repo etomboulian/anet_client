@@ -14,3 +14,4 @@ class GetSkillsResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "skills"

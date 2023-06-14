@@ -20,3 +20,4 @@ class GetActivityDatesResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "activitydates"

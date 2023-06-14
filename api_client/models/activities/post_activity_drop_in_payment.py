@@ -11,3 +11,8 @@ class ActivityDropInPayment(Body):
 
 class PostActivityDropInPaymentResponse(Root):
     body: list[ActivityDropInPayment]
+
+    class ApiProperties:
+        paginated = False
+        sortable = False
+        endpoint = "activitydropinpayment"

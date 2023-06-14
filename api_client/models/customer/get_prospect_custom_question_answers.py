@@ -17,3 +17,4 @@ class GetProspectCustomQuestionAnswersResponse(Root):
     class ApiProperties:
        paginated = False
        sortable = False
+       endpoint = "prospectcustomquestionanswers"

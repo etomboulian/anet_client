@@ -26,3 +26,4 @@ class GetFamilyMembersResponse(Root):
     class ApiProperties:
        paginated = False
        sortable = False
+       endpoint = "familymembers"

@@ -108,3 +108,4 @@ class GetCustomersResponse(Root):
     class ApiProperties:
         paginated = True
         sortable = False
+        endpoint = "customers"

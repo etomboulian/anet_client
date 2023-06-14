@@ -17,3 +17,4 @@ class GetOrganizationResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "organization"

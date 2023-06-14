@@ -7,3 +7,4 @@ class PostForgotResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = "forgotpassword"

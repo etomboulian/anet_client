@@ -195,3 +195,4 @@ class GetActivityDetailResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = ""   # to be overridden before each request

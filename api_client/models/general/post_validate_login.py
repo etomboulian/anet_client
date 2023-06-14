@@ -23,3 +23,4 @@ class PostValidateLoginResponse(Root):
     class ApiProperties:
         paginated = False
         sortable = False
+        endpoint = 'validatelogin'

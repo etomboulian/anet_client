@@ -52,3 +52,4 @@ class GetMembershipsResponse(Root):
     class ApiProperties:
         paginated = True
         sortable = False
+        endpoint = "memberships"

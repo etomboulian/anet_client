@@ -82,3 +82,4 @@ class GetActivityExpandedDetailResponse(Root):
     class ApiProperties:
         paginated = True
         sortable = False
+        endpoint = "activityexpandeddetail"

@@ -47,3 +47,4 @@ class GetActivitiesResponse(Root):
     class ApiProperties:
         paginated = True
         sortable = False
+        endpoint = "activities"

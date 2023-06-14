@@ -42,3 +42,4 @@ class GetCustomQuestionsResponse(Root):
     class ApiProperties:
        paginated = False
        sortable = False
+       endpoint = 'customquestions'
