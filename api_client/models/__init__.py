@@ -37,3 +37,11 @@ from .membership import (
     GetMembershipUsagesResponse,
     GetMembershipPackageFeesResponse
 )
+
+from .customer import (
+    GetCustomersResponse,
+    GetCustomQuestionsResponse,
+    GetCustomQuestionAnswerResponse,
+    GetProspectCustomQuestionAnswersResponse,
+    GetFamilyMembersResponse
+)

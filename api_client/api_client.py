@@ -25,9 +25,17 @@ from api_client.models import (
     GetActivityDatesResponse,
     PostActivityEnrollmentPerDayResponse,
     DeleteActivityEnrollmentPerDayResponse,
-    PostActivityDropInPaymentResponse
+    PostActivityDropInPaymentResponse,
+    GetCustomersResponse,
+    GetCustomQuestionsResponse,
+    GetCustomQuestionAnswerResponse,
+    GetProspectCustomQuestionAnswersResponse,
+    GetFamilyMembersResponse
 )
 from api_client.utils.api_response import ApiResponse
+
+class ApiException(Exception):
+    pass
 
 
 class SystemApiClient:
@@ -408,3 +416,110 @@ class SystemApiClient:
         req = self.make_post_request(None, 'activitydropinpayment', PostActivityDropInPaymentResponse, post_body)
         return req()
     
+    def get_customers(
+            self, 
+            customer_id: int = None, 
+            site_ids: str = None, 
+            gender: int = None, 
+            first_name: str = None, 
+            last_name: str = None, 
+            min_age: int = None, 
+            max_age: int = None, 
+            modified_date_from: date | datetime = None,
+            activity_id: int = None,
+            customer_ids: str = None,
+            alternate_key_ids: str = None,
+            prospect: bool = None
+        ) -> ApiResponse:
+        '''
+        GetCustomersAPI - Returns a list of customers for your request parameters (by customer_id in ascending order).
+
+        Notes:
+            This API will retrieve multiple records per API call depending on the specified request parameters.
+            One record will contain all information of a matching customer.
+
+        Params:
+            customer_id (int) - The ID of the customer.
+            site_ids (str) - The ID of site assigned to the customer. You can specify up to 5 sites, with each site separated by a comma.
+            gender (str) - Customer gender. (0-Coed, 1-Male, 2-Female, 4-Genderqueer/Androgyny, 5-Intersex, 6-Transgender, 7-Transsexual, 8-Cross-dresser, 9-FTM(female-to-male), 10-MTF(male-to-female), 11-Other).
+            first_name (str) - First name of the customer. All customers whose first names start with the specified first name are returned.
+            last_name (str) - Last name of the customer. All customers whose last names start with the specified last name are returned.
+            min_age (int) - Customers whose age are older than or equal to the specified minimum participant age are returned.
+            max_age (int) - Customers whose age are younger than or equal to the specified maximum participant age are returned.
+            modified_date_from (date | datetime) - |Return a list of customers whose information was last modified on or after the specified date and time
+            activity_id (int) - The ID of the activity. Customers who enrolled in the specified activity are returned.
+            customer_ids (str) - You can specify up to 500 customer IDs, with each customer ID separated by a comma.
+            alternate_key_ids (str) - The alternate key IDs of the customers. You can specify up to 100 alternate key IDs, with each ID separated by a comma.
+            prospect (bool) - You can specify boolean value to only search prospect or non-prospect customers.
+
+        Returns:
+            An object representing the ApiResponse
+        '''
+        req = self.make_get_request(locals(), 'customers', GetCustomersResponse)
+
+        if not (modified_date_from or activity_id or customer_ids or alternate_key_ids or prospect):
+            raise ApiException('At least of of the parameters: modified_date_from or activity_id or customer_ids or alternate_key_ids must be provided for this API call')
+        
+        return req()
+
+    def get_custom_questions(
+            self,
+            custom_question_id: int = None,
+            activity_id: int = None,
+            program_id: int = None,
+            package_id: int = None,
+            event_type_id : int = None,
+            account_creation_type: int = None,
+            process: int = None,
+            modified_date_from: date | datetime = None,
+            modified_date_to: date | datetime = None
+    ) -> ApiResponse:
+        '''
+        GetCustomQuestionsAPI - Return a list of custom questions for your request parameters (by custom_question_id in ascending order
+
+        '''
+        params = locals()
+        required_params = (custom_question_id, activity_id, program_id, package_id, event_type_id, process)
+        required_param_count = len(list(param for param in required_params if param is not None))
+        if required_param_count != 1:
+            raise ApiException("Only one of custom_question_id, activity_id, program_id, package_id, event_type_id, process is required and can be specified for this API call")
+        
+        req = self.make_get_request(params, 'customquestions', GetCustomQuestionsResponse)
+        return req()
+    
+    def get_custom_question_answers(
+            self,
+            activity_id: int = None,
+            package_id: int = None,
+            program_id: int = None,
+            permit_number: int = None,
+            customer_id: int = None,
+    ):
+        '''
+        GetCustomQuestionAnswersAPI - Return a list of custom question answers for your request parameters ((by customer_id, and then by question in ascending order).
+        '''
+        req = self.make_get_request(locals(), 'customquestionanswers', GetCustomQuestionAnswerResponse)
+
+        required_params = (activity_id, package_id, program_id, permit_number, customer_id)
+        required_param_count = len(list(param for param in required_params if param is not None))
+        if required_param_count < 1:
+            raise ApiException("One or more of the required parameters must be specified for this API call")
+        
+        return req()
+    
+    def get_prospect_custom_question_answers(
+            self,
+            customer_ids: str
+    ) -> ApiResponse:
+        '''
+        GetProspectCustomQuestionAnswersAPI - Return a list of prospect custom question answers for your request parameters (by customer_id in ascending order).
+        '''
+        req = self.make_get_request(locals(), 'prospectcustomquestionanswers', GetProspectCustomQuestionAnswersResponse)
+        return req()
+    
+    def get_family_members(
+            self, 
+            family_ids: str
+    ) -> ApiResponse:
+        req = self.make_get_request(locals(), 'familymembers', GetFamilyMembersResponse)
+        return req()
