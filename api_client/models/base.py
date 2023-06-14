@@ -21,3 +21,8 @@ class Body (BaseModel):
 class Root(BaseModel):
     headers: Headers
     body: list[Body]
+
+    class ApiProperties:
+        paginated = False
+        sortable = False
+        endpoint = ""

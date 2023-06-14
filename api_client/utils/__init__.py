@@ -38,6 +38,9 @@ class UrlBuilder:
         return self.base_url + endpoint + '/'
 
 
+class ApiException(Exception):
+    pass
+
 from .requester import Requester
 from .api_response import ApiResponse
 from .api_info import ApiInfo
