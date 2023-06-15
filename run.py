@@ -1,4 +1,4 @@
-import os
+import os, datetime
 from api_client import SystemApiClient as ApiClient
 from dotenv import load_dotenv
 
@@ -42,5 +42,10 @@ start = time.time()
 fac = client.get_facilities(10); print(f"[t+{time.time()-start:.2f}] -> {fac.data}"); input()
 fac_det = client.get_facility_details(10);print(f"[t+{time.time()-start:.2f}] -> {fac_det.data}"); input()
 fac_type = client.get_facility_types(); print(f"[t+{time.time()-start:.2f}] -> {fac_type.data}"); input()
+fac_sched = client.get_facility_schedules(datetime.date(2023,6,15), datetime.date(2023,8,30), '10,100,1'); print(f"[t+{time.time()-start:.2f}] -> {fac_sched.data}"); input()
+
+event_types = client.get_event_types(); print(f"[t+{time.time()-start:.2f}] -> {event_types.data}"); input()
+res_grp = client.get_reservation_groups(); print(f"[t+{time.time()-start:.2f}] -> {res_grp.data}"); input()
+prep = client.get_prep_codes(); print(f"[t+{time.time()-start:.2f}] -> {prep.data}"); input()
 #for i in range(1000):
 #    print(f"[t+{time.time()-start:.2f}] -> {client.get_sites().data}")

@@ -111,26 +111,6 @@ class SystemApiClient:
         request_params = locals()
         request = self._make_get_request(request_params, models.GetSkillsResponse)
         return request()
-
-    def get_skip_dates(self, facility_id: int) -> ApiResponse:
-        '''GetSkipDatesAPI - Returns a list of skip dates for the specified facility (by start date in ascending order).
-        
-        Notes:
-            This API supports pagination and sorting.
-            You can sort the results by one of the following parameters
-                start_date -> The start date of skip dates. Order option: ascending or descending.
-                start_time -> The start time of skip dates. Order option: ascending or descending.
-
-        Params:
-            facility_id (int): The facility id of the facility.
-
-        Returns:
-            An object representing the ApiResponse
-
-        '''
-        request_params = locals()
-        request = self._make_get_request(request_params, models.GetSkipDatesResponse)
-        return request()
         
     def get_memberships(
             self,
@@ -164,47 +144,6 @@ class SystemApiClient:
         '''
         request_params = locals()
         request = self._make_get_request(request_params, models.GetMembershipsResponse)
-        return request()
-
-    def get_equipment( 
-        self,
-        equipment_id: int = None,
-        center_ids: str = None,
-        bookable_or_lendable: int = None,
-        modified_date_from: date | datetime = None,
-        modified_date_to: date | datetime = None,
-        show_on_member_app: bool = None,
-        open_block_date_from: date = None,
-        ) -> ApiResponse:
-        '''GetEquipmentAPI - Returns a list of equipment items for the specified request parameters (by equipment_id in ascending order by default).
-        
-        Notes:
-            This API supports pagination, but does not support sorting. 
-            At least one of the following parameters must be provided to this method: 'equipment_id', 'center_ids', 'modified_date_from' and 'modified_date_to'.
-
-        Params: (Optional)        
-            equipment_id (int): The ID of the equipment item
-            center_ids (string): You can specify up to 5 center IDs, with each center ID separated by a comma.
-            bookable_or_lendable (int): Filter for equipment by their Bookable or Lendable property: 0-Both 1-Bookable 2-Lendable
-            modified_date_from (date|datetime): Equipment whose latest update is on or after the specified date and time are returned 
-            modified_date_to (date): Equipment whose latest update is on or before the specified date and time are returned 
-            show_on_member_app (bool): To retrieve equipment items which are displayed in the ACTIVE Net Captivate app, specify 'Y' or 'N'
-            open_block_date_from (date): The begin date for get open block dates.
-        
-        Returns:
-            An object representing the ApiResponse
-        
-        '''
-        request_params = locals()
-        
-        # Do any necessary validation
-        if not equipment_id or center_ids or (modified_date_from and modified_date_to):
-            raise ValueError('At least one of the following parameters must be provided: equipment_id, center_ids, modified_date_from and modified_date_to.')
-        
-        # Prep the params and endpoint
-        request = self._make_get_request(request_params, models.GetEquipmentResponse)
-        
-        # Make the request
         return request()
     
     def post_validate_login(self, login_name: str, password: str) -> ApiResponse:
@@ -541,7 +480,8 @@ class SystemApiClient:
             self,
             facility_id: int
     ) -> ApiResponse:
-        models.GetFacilityDetailResponse.ApiProperties.endpoint.format(facility_id)
+        props = models.GetFacilityDetailResponse.ApiProperties
+        props.endpoint = props.endpoint.format(facility_id=facility_id)
         request = self._make_get_request(None, models.GetFacilityDetailResponse)
         return request()
     
@@ -592,3 +532,186 @@ class SystemApiClient:
         request = self._make_get_request(request_params, models.GetFacilityChargeMatrixResponse)
         return request()
     
+    def get_event_types(self) -> ApiResponse:
+        '''GetEventTypesAPI
+
+        Params: 
+            None
+
+        Returns:
+            A list of event types with configured facilities for your organization (by event type description in ascending order).
+        '''
+        request = self._make_get_request(None, models.GetEventTypesResponse)
+        return request()
+    
+    def get_reservation_groups(self) -> ApiResponse:
+        '''GetReservationGroupsAPI
+        
+        Params:
+            None
+            
+        Returns:
+            Returns a list of reservation groups with configured facilities for your organization (by group name in ascending order).    
+        '''
+        request = self._make_get_request(None, models.GetReservationGroupsResponse)
+        return request()
+    
+    def get_prep_codes(self) -> ApiResponse:
+        '''GetPrepCodes
+        
+        Params: 
+            None
+            
+        Returns:
+            Returns a list of preparation codes (by prep_code_id in ascending order).
+        '''
+        request = self._make_get_request(None, models.GetPrepCodesResponse)
+        return request()
+    
+    def get_schedule_types(self) -> ApiResponse:
+        '''GetScheduleTypesAPI
+
+        Params:
+            None
+
+        Returns:
+            A list of schedule types of your organization (by schedule_type_id in ascending order).
+        '''
+        request = self._make_get_request(None, models.GetScheduleTypesResponse)
+        return request()
+
+    def get_skip_dates(self, facility_id: int) -> ApiResponse:
+        '''GetSkipDatesAPI - Returns a list of skip dates for the specified facility (by start date in ascending order).
+        
+        Notes:
+            This API supports pagination and sorting.
+            You can sort the results by one of the following parameters
+                start_date -> The start date of skip dates. Order option: ascending or descending.
+                start_time -> The start time of skip dates. Order option: ascending or descending.
+
+        Params:
+            facility_id (int): The facility id of the facility.
+
+        Returns:
+            An object representing the ApiResponse
+
+        '''
+        request_params = locals()
+        request = self._make_get_request(request_params, models.GetSkipDatesResponse)
+        return request()
+    
+    def get_instructor_schedules(
+            self,
+            date_from: date | datetime,
+            date_to: date | datetime,
+            instructor_ids: str,
+            instructor_schedule_type: int = None,
+            activity_ids: str = None
+    ) -> ApiResponse:
+        '''GetInstructorSchedulesAPI
+
+        Params:
+            date_from (date|datetime) - Returns instructor schedules with start dates on or after this date and time
+            date_to (date|datetime) - Returns instructor schedules with end dates on or before this date and time 
+            instructor_ids (str) - IDs of instructors. You can specify up to 10 instructor IDs, with each ID separated by a comma.
+            instructor_schedule_type (int) - Type of the instructor schedule
+            activity_ids (str) - Returns instructor schedules that are reserved by the specified activities. You can specify up to 10 activity ids.
+
+        Returns:
+            Returns a list of schedules for the specified instructors (by instructor_first_name, in ascending order).
+        
+        '''
+        request_params = locals()
+        request = self._make_get_request(request_params, models.GetInstructorSchedulesResponse)
+        return request()
+        
+    def get_equipment_types(self) -> ApiResponse:
+        '''GetEquipmentTypesAPI
+        
+        Params:
+            None
+            
+        Returns:
+            Returns a list of equipment types for your organization (by description in ascending order).
+        '''
+        request = self._make_get_request(None, models.GetEquipmentTypesResponse)
+        return request()
+    
+    def get_equipment( 
+        self,
+        equipment_id: int = None,
+        center_ids: str = None,
+        bookable_or_lendable: int = None,
+        modified_date_from: date | datetime = None,
+        modified_date_to: date | datetime = None,
+        show_on_member_app: bool = None,
+        open_block_date_from: date = None,
+        ) -> ApiResponse:
+        '''GetEquipmentAPI - Returns a list of equipment items for the specified request parameters (by equipment_id in ascending order by default).
+        
+        Notes:
+            This API supports pagination, but does not support sorting. 
+            At least one of the following parameters must be provided to this method: 'equipment_id', 'center_ids', 'modified_date_from' and 'modified_date_to'.
+
+        Params: (Optional)        
+            equipment_id (int): The ID of the equipment item
+            center_ids (string): You can specify up to 5 center IDs, with each center ID separated by a comma.
+            bookable_or_lendable (int): Filter for equipment by their Bookable or Lendable property: 0-Both 1-Bookable 2-Lendable
+            modified_date_from (date|datetime): Equipment whose latest update is on or after the specified date and time are returned 
+            modified_date_to (date): Equipment whose latest update is on or before the specified date and time are returned 
+            show_on_member_app (bool): To retrieve equipment items which are displayed in the ACTIVE Net Captivate app, specify 'Y' or 'N'
+            open_block_date_from (date): The begin date for get open block dates.
+        
+        Returns:
+            An object representing the ApiResponse
+        
+        '''
+        request_params = locals()
+        
+        # Do any necessary validation
+        if not equipment_id or center_ids or (modified_date_from and modified_date_to):
+            raise ValueError('At least one of the following parameters must be provided: equipment_id, center_ids, modified_date_from and modified_date_to.')
+        
+        # Prep the params and endpoint
+        request = self._make_get_request(request_params, models.GetEquipmentResponse)
+        
+        # Make the request
+        return request()
+    
+    def get_equipment_schedules(
+            self,
+            date_from: date | datetime,
+            date_to: date | datetime,
+            equipment_ids: str
+    ) -> ApiResponse:
+        '''GetEquipmentSchedulesAPI
+
+        Params:
+            date_from (date|datetime) - Equipment availability schedules with start dates on or after this date and time are returned
+            date_to (date|datetime) - Equipment availability schedules with end dates on or before this date and time are returned
+            equipment_ids (str) - Equipment IDs. You can specify up to 100 equipment IDs, with each ID separated by a comma.
+
+        Returns:
+            The equipment availability schedule for the specified request parameters (by equipment_id in ascending order).
+        
+        '''
+        request_params = locals()
+        request = self._make_get_request(request_params, models.GetEquipmentSchedulesResponse)
+        return request()
+        
+    def post_reserve_equipment_booking(
+            self,
+            equipment_id: int,
+            customer_id: str,
+            quantity: int,
+            setup_time: int,
+            event_start_date_time: str,
+            event_end_date_time: str,
+            teardown_time: int,
+            event_name: str
+            ) -> ApiResponse:
+        body_data = locals().popitem('self')
+        print(body_data)
+    
+    def delete_equipment_booking(self):
+        pass

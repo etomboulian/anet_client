@@ -1,10 +1,8 @@
-
 from .general import (
     GetOrganizationResponse,
     GetSitesResponse,
     GetSeasonsResponse,
     GetSkillsResponse,
-    GetSkipDatesResponse,
     GetCentersResponse,
     GetMembershipsResponse,
     PostValidateLoginResponse,
@@ -33,7 +31,16 @@ from .facility import (
     GetFacilityTypesResponse,
     GetFacilitySchedulesResponse,
     GetFacilityOpenHoursResponse,
-    GetFacilityChargeMatrixResponse
+    GetFacilityChargeMatrixResponse,
+    GetEventTypesResponse,
+    GetReservationGroupsResponse,
+    GetPrepCodesResponse,
+    GetScheduleTypesResponse,
+    GetInstructorSchedulesResponse,
+    GetEquipmentTypesResponse,
+    GetEquipmentSchedulesResponse,
+    PostReserveEquipmentBookingResponse,
+    GetSkipDatesResponse
 )
 
 from .membership import (

@@ -5,3 +5,12 @@ from .get_facility_types import GetFacilityTypesResponse
 from .get_facility_schedules import GetFacilitySchedulesResponse
 from .get_facility_open_hours import GetFacilityOpenHoursResponse
 from .get_facility_charge_matrix import GetFacilityChargeMatrixResponse
+from .get_event_types import GetEventTypesResponse
+from .get_reservation_groups import GetReservationGroupsResponse
+from .get_prep_codes import GetPrepCodesResponse
+from .get_schedule_types import GetScheduleTypesResponse
+from .get_skipdates import GetSkipDatesResponse
+from .get_instructor_schedules import GetInstructorSchedulesResponse
+from .get_equipment_types import GetEquipmentTypesResponse
+from .get_equipment_schedules import GetEquipmentSchedulesResponse
+from .post_reserve_equipment_booking import PostReserveEquipmentBookingResponse
