@@ -19,6 +19,7 @@ class Equipment(Body):
     show_on_member_app: str
     bookable_or_lendable: str
     open_blocks: list[OpenBlock]
+    
 
 class GetEquipmentResponse(Root):
     body: list[Equipment]

@@ -27,7 +27,13 @@ from .activities import (
 )
 
 from .facility import (
-    GetEquipmentResponse
+    GetEquipmentResponse,
+    GetFacilitiesResponse,
+    GetFacilityDetailResponse,
+    GetFacilityTypesResponse,
+    GetFacilitySchedulesResponse,
+    GetFacilityOpenHoursResponse,
+    GetFacilityChargeMatrixResponse
 )
 
 from .membership import (

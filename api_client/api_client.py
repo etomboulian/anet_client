@@ -12,35 +12,7 @@ from api_client.utils import (
     ApiResponse
 )
 
-from api_client.models import (
-    GetEquipmentResponse, 
-    GetOrganizationResponse, 
-    GetSitesResponse, 
-    GetSeasonsResponse,
-    GetSkillsResponse,
-    GetSkipDatesResponse,
-    GetCentersResponse,
-    GetMembershipsResponse,
-    PostForgotResponse,
-    PostValidateLoginResponse,
-    GetActivitiesResponse,
-    GetActivityDetailResponse,
-    GetActivityCategoriesResponse,
-    GetActivityOtherCategoriesResponse,
-    GetActivityFeesResponse, 
-    GetActivityTypesResponse,
-    GetActivityEnrollmentResponse,
-    GetActivityExpandedDetailResponse,
-    GetActivityDatesResponse,
-    PostActivityEnrollmentPerDayResponse,
-    DeleteActivityEnrollmentPerDayResponse,
-    PostActivityDropInPaymentResponse,
-    GetCustomersResponse,
-    GetCustomQuestionsResponse,
-    GetCustomQuestionAnswerResponse,
-    GetProspectCustomQuestionAnswersResponse,
-    GetFamilyMembersResponse
-)
+from api_client import models
 
 
 class SystemApiClient:
@@ -76,7 +48,7 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetSitesResponse)
+        request = self._make_get_request(request_params, models.GetSitesResponse)
         return request()
     
     def get_organization(self) -> ApiResponse:
@@ -91,7 +63,7 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetOrganizationResponse)
+        request = self._make_get_request(request_params, models.GetOrganizationResponse)
         return request()
     
     def get_seasons(self) -> ApiResponse:
@@ -106,7 +78,7 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetSeasonsResponse)
+        request = self._make_get_request(request_params, models.GetSeasonsResponse)
         return request()
     
     def get_centers(self, show_on_member_app: bool = None) -> ApiResponse:
@@ -123,7 +95,7 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetCentersResponse)
+        request = self._make_get_request(request_params, models.GetCentersResponse)
         return request()
 
     def get_skills(self) -> ApiResponse:
@@ -137,7 +109,7 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetSkillsResponse)
+        request = self._make_get_request(request_params, models.GetSkillsResponse)
         return request()
 
     def get_skip_dates(self, facility_id: int) -> ApiResponse:
@@ -157,7 +129,7 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetSkipDatesResponse)
+        request = self._make_get_request(request_params, models.GetSkipDatesResponse)
         return request()
         
     def get_memberships(
@@ -191,7 +163,7 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetMembershipsResponse)
+        request = self._make_get_request(request_params, models.GetMembershipsResponse)
         return request()
 
     def get_equipment( 
@@ -230,7 +202,7 @@ class SystemApiClient:
             raise ValueError('At least one of the following parameters must be provided: equipment_id, center_ids, modified_date_from and modified_date_to.')
         
         # Prep the params and endpoint
-        request = self._make_get_request(request_params, GetEquipmentResponse)
+        request = self._make_get_request(request_params, models.GetEquipmentResponse)
         
         # Make the request
         return request()
@@ -252,7 +224,7 @@ class SystemApiClient:
         '''
         request_params = locals()
         post_body = {'login_name': login_name, 'password':password}
-        request = self._make_post_request(request_params, PostValidateLoginResponse, post_body)
+        request = self._make_post_request(request_params, models.PostValidateLoginResponse, post_body)
         return request()
     
     def post_forgot_password(self, email: str) -> ApiResponse:
@@ -267,7 +239,7 @@ class SystemApiClient:
         '''
         request_params = locals()
         post_body_data = {"email": email}
-        request = self._make_post_request(request_params, PostForgotResponse, post_body_data)
+        request = self._make_post_request(request_params, models.PostForgotResponse, post_body_data)
         return request()
     
     def post_forgot_login_name(self, email) -> ApiResponse:
@@ -282,7 +254,7 @@ class SystemApiClient:
         '''
         request_params = locals()
         post_body_data = {"email": email}
-        request = self._make_post_request(request_params, PostForgotResponse, post_body_data)
+        request = self._make_post_request(request_params, models.PostForgotResponse, post_body_data)
         return request()
     
     def get_activities(
@@ -344,31 +316,31 @@ class SystemApiClient:
 
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetActivitiesResponse)
+        request = self._make_get_request(request_params, models.GetActivitiesResponse)
         return request()
     
     def get_activity_detail(self, activity_id: int) -> ApiResponse:
         endpoint = f"activities/{activity_id}"
-        GetActivityDetailResponse.ApiProperties.endpoint = endpoint
-        request = self._make_get_request(None, GetActivityDetailResponse)
+        models.GetActivityDetailResponse.ApiProperties.endpoint = endpoint
+        request = self._make_get_request(None, models.GetActivityDetailResponse)
         return request()
 
     def get_activity_categories(self, show_on_member_app: str = None) -> ApiResponse:
         request_params = locals()
-        request = self._make_get_request(request_params, GetActivityCategoriesResponse)
+        request = self._make_get_request(request_params, models.GetActivityCategoriesResponse)
         return request()
     
     def get_activity_other_categories(self) -> ApiResponse:
-        request = self._make_get_request(None, GetActivityOtherCategoriesResponse)
+        request = self._make_get_request(None, models.GetActivityOtherCategoriesResponse)
         return request()
     
     def get_activity_fees(self, activity_id: int) -> ApiResponse:
-        GetActivityFeesResponse.ApiProperties.endpoint = f"activities/{activity_id}/fees"
-        request = self._make_get_request(None, GetActivityFeesResponse)
+        models.GetActivityFeesResponse.ApiProperties.endpoint = f"activities/{activity_id}/fees"
+        request = self._make_get_request(None, models.GetActivityFeesResponse)
         return request()
     
     def get_activity_types(self, show_on_member_app: str = None) -> ApiResponse:
-        request = self._make_get_request(locals(), GetActivityTypesResponse)
+        request = self._make_get_request(locals(), models.GetActivityTypesResponse)
         return request()
     
     def get_activity_enrollment(
@@ -379,7 +351,7 @@ class SystemApiClient:
             date_after: datetime = None
             ) -> ApiResponse:
         request_params = locals()
-        request = self._make_get_request(request_params, GetActivityEnrollmentResponse)
+        request = self._make_get_request(request_params, models.GetActivityEnrollmentResponse)
         return request()
     
     def get_activity_expanded_detail(
@@ -389,7 +361,7 @@ class SystemApiClient:
             date_after: date | datetime = None
     ) -> ApiResponse:
         request_params = locals()
-        request = self._make_get_request(request_params, GetActivityExpandedDetailResponse)
+        request = self._make_get_request(request_params, models.GetActivityExpandedDetailResponse)
         return request()
     
     def get_activity_dates(
@@ -397,7 +369,7 @@ class SystemApiClient:
             activity_id: int
     ) -> ApiResponse:
         request_params = locals()
-        request = self._make_get_request(request_params, GetActivityDatesResponse)
+        request = self._make_get_request(request_params, models.GetActivityDatesResponse)
         return request()
     
     def post_activity_enrollment_per_day(
@@ -407,7 +379,7 @@ class SystemApiClient:
             customer_id: int
     ) -> ApiResponse:
         post_body = { "activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id}
-        request = self._make_post_request(None, "activityenrollmentperday", PostActivityEnrollmentPerDayResponse, post_body)
+        request = self._make_post_request(None, "activityenrollmentperday", models.PostActivityEnrollmentPerDayResponse, post_body)
         return request()
     
     def delete_activity_enrollment_per_day(
@@ -418,7 +390,7 @@ class SystemApiClient:
             reservation_id: int
     ):
         post_body = { "activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id, "reservation_id": reservation_id}
-        request = self._make_delete_request(None, DeleteActivityEnrollmentPerDayResponse, post_body)
+        request = self._make_delete_request(None, models.DeleteActivityEnrollmentPerDayResponse, post_body)
         return request()
 
     def post_activity_drop_in_payment(
@@ -429,7 +401,7 @@ class SystemApiClient:
             login_customer_id: int
             ) -> ApiResponse:
         post_body = {"activity_id": activity_id, "activity_date_id": activity_date_id, "customer_id": customer_id, "login_customer_id": login_customer_id}
-        request = self._make_post_request(None, PostActivityDropInPaymentResponse, post_body)
+        request = self._make_post_request(None, models.PostActivityDropInPaymentResponse, post_body)
         return request()
     
     def get_customers(
@@ -476,7 +448,7 @@ class SystemApiClient:
         if not (modified_date_from or activity_id or customer_ids or alternate_key_ids or prospect):
             raise ApiException('At least of of the parameters: modified_date_from or activity_id or customer_ids or alternate_key_ids must be provided for this API call')
         
-        request = self._make_get_request(request_params, GetCustomersResponse)
+        request = self._make_get_request(request_params, models.GetCustomersResponse)
         return request()
 
     def get_custom_questions(
@@ -502,7 +474,7 @@ class SystemApiClient:
         if required_param_count != 1:
             raise ApiException("Only one of custom_question_id, activity_id, program_id, package_id, event_type_id, process is required and can be specified for this API call")
         
-        request = self._make_get_request(request_params, GetCustomQuestionsResponse)
+        request = self._make_get_request(request_params, models.GetCustomQuestionsResponse)
         return request()
     
     def get_custom_question_answers(
@@ -523,7 +495,7 @@ class SystemApiClient:
         if required_param_count < 1:
             raise ApiException("One or more of the required parameters must be specified for this API call")
         
-        request = self._make_get_request(request_params, GetCustomQuestionAnswerResponse)
+        request = self._make_get_request(request_params, models.GetCustomQuestionAnswerResponse)
         return request()
     
     def get_prospect_custom_question_answers(
@@ -534,7 +506,7 @@ class SystemApiClient:
         GetProspectCustomQuestionAnswersAPI - Return a list of prospect custom question answers for your request parameters (by customer_id in ascending order).
         '''
         request_params = locals()
-        request = self._make_get_request(request_params, GetProspectCustomQuestionAnswersResponse)
+        request = self._make_get_request(request_params, models.GetProspectCustomQuestionAnswersResponse)
         return request()
     
     def get_family_members(
@@ -542,5 +514,81 @@ class SystemApiClient:
             family_ids: str
     ) -> ApiResponse:
         request_params = locals()
-        request = self._make_get_request(request_params, GetFamilyMembersResponse)
+        request = self._make_get_request(request_params, models.GetFamilyMembersResponse)
         return request()
+    
+    def get_facilities(
+            self,
+            facility_id: int = None,
+            modified_date_from: date | datetime = None,
+            modified_date_to: date | datetime = None,
+            facility_name: str = None,
+            facility_number: str = None,
+            facility_type_id: int = None,
+            prevent_further_use: bool = None,
+            center_ids: str = None,
+            site_ids: str = None,
+            amenity_id: int = None,
+            prep_code_id: int = None,
+            reserve_by: int = None,
+            show_on_member_app: str = None
+    ) -> ApiResponse:
+        request_params = locals()
+        request = self._make_get_request(request_params, models.GetFacilitiesResponse)
+        return request()
+    
+    def get_facility_details(
+            self,
+            facility_id: int
+    ) -> ApiResponse:
+        models.GetFacilityDetailResponse.ApiProperties.endpoint.format(facility_id)
+        request = self._make_get_request(None, models.GetFacilityDetailResponse)
+        return request()
+    
+    def get_facility_types(
+            self
+    ) -> ApiResponse:
+        request = self._make_get_request(None, models.GetFacilityTypesResponse)
+        return request()
+    
+    def get_facility_schedules(
+            self,
+            date_from: date | datetime,
+            date_to: date | datetime,
+            facility_ids: str
+    ) -> ApiResponse:
+        request_params = locals()
+        request = self._make_get_request(request_params, models.GetFacilitySchedulesResponse)
+        return request()
+
+    def get_facility_open_hours(
+            self,
+            facility_id: int
+    ) -> ApiResponse:
+        '''GetFacilitiyOpenHoursAPI
+        
+        Params:
+            facility_id (int) - The ID of the facility. For the specified facility, default facility opening/closing hours and facility opening/closing hours during the specified date range are returned.    
+
+        Returns:
+            The default facility opening/closing hours and facility open/close hours during the specified date range.
+        '''
+        request_params = locals()
+        models.GetFacilityOpenHoursResponse.ApiProperties.endpoint.format(facility_id)
+        request = self._make_get_request(request_params, models.GetFacilityOpenHoursResponse)
+        return request()
+    
+    def get_facility_charge_matrix(
+            self,
+            search_type: int,
+            customer_type_id: int = None,
+            center_id: int = None,
+            facility_type_id: int = None,
+            facility_id: int = None,
+            site_id: int = None,
+            event_type_id: int = None
+    ) -> ApiResponse:
+        request_params = locals()
+        request = self._make_get_request(request_params, models.GetFacilityChargeMatrixResponse)
+        return request()
+    

@@ -1,1 +1,7 @@
 from .get_equipment import GetEquipmentResponse
+from .get_facilities import GetFacilitiesResponse
+from .get_facility_detail import GetFacilityDetailResponse
+from .get_facility_types import GetFacilityTypesResponse
+from .get_facility_schedules import GetFacilitySchedulesResponse
+from .get_facility_open_hours import GetFacilityOpenHoursResponse
+from .get_facility_charge_matrix import GetFacilityChargeMatrixResponse
