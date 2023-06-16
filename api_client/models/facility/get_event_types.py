@@ -1,5 +1,4 @@
-from api_client.models.base import Root, Body
-from datetime import date, datetime, time
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class QualifiedFacility(Body):
@@ -33,7 +32,8 @@ class EventTypes(Body):
 class GetEventTypesResponse(Root):
     body: list[EventTypes]
     
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "eventtypes"
+        response_type = ResponseTypes.LIST

@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class MembershipUsage(Body):
@@ -27,6 +27,8 @@ class MembershipUsage(Body):
 class GetMembershipUsagesResponse(Root):
     body: list[MembershipUsage]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = False
+        endpoint = "membershipusages"
+        response_type = ResponseTypes.LIST

@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import date
 
 class Headers(Body):
@@ -79,7 +79,8 @@ class ActivityExpandedDetail(Body):
 class GetActivityExpandedDetailResponse(Root):
     body: list[ActivityExpandedDetail]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = False
         endpoint = "activityexpandeddetail"
+        response_type = ResponseTypes.LIST

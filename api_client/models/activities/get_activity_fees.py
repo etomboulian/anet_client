@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import date
 
 class RegionalPricing(Body):
@@ -59,7 +59,8 @@ class ActivityFees(Body):
 class GetActivityFeesResponse(Root):
     body: list[ActivityFees]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = ""
+        response_type = ResponseTypes.LIST

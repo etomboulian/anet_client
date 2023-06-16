@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class InstructorScheduleEntry(Body):
@@ -24,7 +24,8 @@ class InstructorScheduleEntry(Body):
 class GetInstructorSchedulesResponse(Root):
     body: list[InstructorScheduleEntry]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = False
         endpoint = "instructorschedules" 
+        response_type = ResponseTypes.LIST

@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import datetime
 
 
@@ -17,7 +17,8 @@ class ActivityDate(Body):
 class GetActivityDatesResponse(Root):
     body: list[ActivityDate]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "activitydates"
+        ResponseTypes.LIST

@@ -1,4 +1,4 @@
-from api_client.models.base import Body, Root
+from api_client.models.base import Body, Root, ResponseTypes
 
 
 class SkipDate(Body):
@@ -13,7 +13,8 @@ class SkipDate(Body):
 class GetSkipDatesResponse(Root):
     body: list[SkipDate]
     
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = True
         endpoint = "skipdates"
+        response_type = ResponseTypes.LIST

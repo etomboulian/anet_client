@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 class MembershipPackageCategory(Body):
     category_id: int
@@ -11,6 +11,8 @@ class MembershipPackageCategory(Body):
 class GetMembershipPackageCategoryResponse(Root):
     body: list[MembershipPackageCategory]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
+        endpoint = 'membershippackagecategories'
+        response_type = ResponseTypes.LIST

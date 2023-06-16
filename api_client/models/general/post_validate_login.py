@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 class Headers(Body):
     response_code: str
@@ -20,7 +20,8 @@ class LoginInformation(Body):
 class PostValidateLoginResponse(Root):
     body: list[Body]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = 'validatelogin'
+        response_type = ResponseTypes.SINGLE

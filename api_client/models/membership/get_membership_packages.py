@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class MembershipPackage(Body):
@@ -56,6 +56,8 @@ class MembershipPackage(Body):
 class GetMembershipPackagesResponse(Root):
     body: list[MembershipPackage]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = True
+        endpoint = 'membershippackages'
+        response_type = ResponseTypes.LIST

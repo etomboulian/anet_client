@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class ProspectAnswer(Body):
@@ -14,7 +14,8 @@ class ProspectCustomQuestionAnswers(Body):
 class GetProspectCustomQuestionAnswersResponse(Root):
     body: list[ProspectCustomQuestionAnswers]
 
-    class ApiProperties:
+    class APIProperties:
        paginated = False
        sortable = False
        endpoint = "prospectcustomquestionanswers"
+       response_type = ResponseTypes.LIST

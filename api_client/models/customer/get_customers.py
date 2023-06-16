@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import datetime, date
 
 
@@ -105,7 +105,8 @@ class Customer(Body):
 class GetCustomersResponse(Root):
     body: list[Customer]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = False
         endpoint = "customers"
+        response_type = ResponseTypes.LIST

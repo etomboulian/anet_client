@@ -1,9 +1,9 @@
-from typing import TypeVar
+from typing import TypeVar, Generic
 
 from api_client.models.base import Root, PageInfo
 
 ReturnModelType = TypeVar("ReturnModelType", bound=Root)
-class ApiResponse:
+class ApiResponse(Generic[ReturnModelType]):
     def __init__(self, requester, response_object: ReturnModelType) -> None:
         self.data = response_object
         self.headers = response_object.headers

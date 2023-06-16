@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from api_client.models.base import Body, Root
+from api_client.models.base import Body, Root, ResponseTypes
 
 
 class ChildSeason(Body):
@@ -44,7 +44,8 @@ class Season(Body):
 class GetSeasonsResponse(Root):
     body: list[Season]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "seasons"
+        response_type = ResponseTypes.LIST

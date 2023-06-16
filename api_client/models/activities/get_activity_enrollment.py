@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import date, datetime
 
 
@@ -38,7 +38,8 @@ class ActivityEnrollment(Body):
 class GetActivityEnrollmentResponse(Root):
     body: list[ActivityEnrollment]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = False
         endpoint = "activityenrollment"
+        response_type = ResponseTypes.LIST

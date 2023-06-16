@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import time
 
 class Headers(Body):
@@ -19,9 +19,10 @@ class GetPrepCodesResponse(Root):
     headers: Headers
     body: list[PrepCode]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "prepcodes"
+        response_type = ResponseTypes.LIST
 
 

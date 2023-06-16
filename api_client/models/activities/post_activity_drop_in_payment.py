@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class ActivityDropInPayment(Body):
@@ -12,7 +12,8 @@ class ActivityDropInPayment(Body):
 class PostActivityDropInPaymentResponse(Root):
     body: list[ActivityDropInPayment]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "activitydropinpayment"
+        response_type = ResponseTypes.SINGLE

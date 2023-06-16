@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import time
 
 class DayTimeItem(Body):
@@ -37,7 +37,8 @@ class FacilityOpenHours(Body):
 class GetFacilityOpenHoursResponse(Root):
     body: list[FacilityOpenHours]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "facilityopenhours/{facility_id}"
+        response_type = ResponseTypes.SINGLE

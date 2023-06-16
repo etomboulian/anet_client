@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class ScheduleType(Body):
@@ -21,7 +21,8 @@ class ScheduleType(Body):
 class GetScheduleTypesResponse(Root):
     body: list[ScheduleType]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "scheduletypes"
+        response_type = ResponseTypes.LIST

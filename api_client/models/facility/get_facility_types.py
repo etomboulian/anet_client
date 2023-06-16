@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class FacilityType(Body):
@@ -11,8 +11,9 @@ class FacilityType(Body):
 class GetFacilityTypesResponse(Root):
     body: list[FacilityType]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "facilitytypes"
+        response_type = ResponseTypes.LIST
         

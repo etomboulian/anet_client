@@ -1,5 +1,5 @@
 from datetime import time
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class DefaultHoursOfOperation(Body):
@@ -83,7 +83,8 @@ class Center(Body):
 class GetCentersResponse(Root):
     body: list[Center]
     
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "centers"
+        response_type = ResponseTypes.LIST

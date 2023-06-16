@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import date, datetime
 
 
@@ -192,7 +192,8 @@ class ActivityDetail(Body):
 class GetActivityDetailResponse(Root):
     body: list[ActivityDetail]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
-        endpoint = ""   # to be overridden before each request
+        endpoint = None
+        response_type = ResponseTypes.SINGLE

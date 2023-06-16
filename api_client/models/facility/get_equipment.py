@@ -1,5 +1,5 @@
 from datetime import datetime
-from api_client.models.base import Body, Root
+from api_client.models.base import Body, Root, ResponseTypes
 
 class OpenBlock(Body):
     date: datetime
@@ -24,7 +24,8 @@ class Equipment(Body):
 class GetEquipmentResponse(Root):
     body: list[Equipment]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = True
         sortable = False
         endpoint = 'equipment'
+        response_type = ResponseTypes.LIST

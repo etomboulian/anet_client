@@ -1,4 +1,4 @@
-from api_client.models.base import Body, Root
+from api_client.models.base import Body, Root, ResponseTypes
 
 
 class Organization(Body):
@@ -14,7 +14,8 @@ class Organization(Body):
 class GetOrganizationResponse(Root):
     body: list[Organization]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "organization"
+        response_type = ResponseTypes.SINGLE

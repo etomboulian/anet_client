@@ -1,4 +1,4 @@
-from api_client.models.base import Body, Root
+from api_client.models.base import Body, Root, ResponseTypes
 
 
 class Skill(Body):
@@ -11,7 +11,8 @@ class Skill(Body):
 class GetSkillsResponse(Root):
     body: list[Skill]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "skills"
+        response_type = ResponseTypes.LIST

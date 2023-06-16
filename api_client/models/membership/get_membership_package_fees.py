@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 from datetime import date
 
 class GlAccount(Body):
@@ -44,6 +44,8 @@ class MembershipPackageFees(Body):
 class GetMembershipPackageFeesResponse(Root):
     body: list[MembershipPackageFees]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
+        endpoint = "membershippackages/{package_id}/fees"
+        response_type = ResponseTypes.SINGLE

@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class ActivityType(Body):
@@ -11,7 +11,8 @@ class ActivityType(Body):
 class GetActivityTypesResponse(Root):
     body: list[ActivityType]
     
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "activitytypes"
+        response_type = ResponseTypes.LIST

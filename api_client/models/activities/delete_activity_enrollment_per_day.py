@@ -1,9 +1,10 @@
-from api_client.models.base import Root
+from api_client.models.base import Root, ResponseTypes
 
 class DeleteActivityEnrollmentPerDayResponse(Root):
     body: list
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "activityenrollmentperday"
+        response_type = ResponseTypes.NONE

@@ -1,4 +1,10 @@
 from pydantic import BaseModel
+from enum import Enum
+
+class ResponseTypes(Enum):
+    NONE = 0
+    SINGLE = 1
+    LIST = 2
 
 # Base Classes
 class PageInfo(BaseModel):
@@ -22,7 +28,8 @@ class Root(BaseModel):
     headers: Headers
     body: list[Body]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
-        endpoint = ""
+        endpoint = None
+        response_type = None

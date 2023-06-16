@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 class Headers(Body):
     response_code: str
@@ -21,7 +21,8 @@ class Site(Body):
 class GetSitesResponse(Root):
     body: list[Site]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "sites"
+        response_type = ResponseTypes.LIST

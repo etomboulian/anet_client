@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class EquipmentType(Body):
@@ -12,7 +12,8 @@ class EquipmentType(Body):
 class GetEquipmentTypesResponse(Root):
     body: list[EquipmentType]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sorted = False
         endpoint = "equipmenttypes"
+        response_type = ResponseTypes.LIST

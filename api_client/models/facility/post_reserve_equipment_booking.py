@@ -1,4 +1,4 @@
-from api_client.models.base import Root, Body
+from api_client.models.base import Root, Body, ResponseTypes
 
 
 class ReserveEquipmentBooking(Body):
@@ -9,8 +9,9 @@ class ReserveEquipmentBooking(Body):
 class PostReserveEquipmentBookingResponse(Root):
     body: list[ReserveEquipmentBooking]
 
-    class ApiProperties:
+    class APIProperties:
         paginated = False
         sortable = False
         endpoint = "reserveequipmentbooking"
+        response_type = ResponseTypes.SINGLE
         

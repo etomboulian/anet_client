@@ -1,8 +1,6 @@
-from datetime import date, datetime
-from pydantic import BaseModel
 from requests_ratelimiter import LimiterSession
-
-from api_client.models.base import Root
+from datetime import date, datetime
+from api_client import models
 from api_client.utils import (
     Requester, 
     UrlBuilder, 
@@ -12,8 +10,6 @@ from api_client.utils import (
     ApiResponse
 )
 
-from api_client import models
-
 
 class SystemApiClient:
     def __init__(self, org_name: str, country: str, api_key: str, secret: str) -> None:
@@ -21,22 +17,22 @@ class SystemApiClient:
         self.session = LimiterSession(per_second=2, limit_statuses=[403])
         self.url = UrlBuilder(self.api_info.org_name, self.api_info.country)  
     
-    def _make_get_request(self, url_params: dict, ret_type: Root) -> Requester:
+    def _make_get_request(self, url_params: dict, ret_type: models.Root) -> Requester:
         params = self.api_info._create_default_params(url_params)
-        endpoint = self.url.get_endpoint(ret_type.ApiProperties.endpoint)
+        endpoint = self.url.get_endpoint(ret_type.APIProperties.endpoint)
         return Requester(HttpVerbs.get, self.session, endpoint, params, ret_type, None)
 
-    def _make_post_request(self, url_params: dict, ret_type: Root, post_body: dict = None) -> Requester:
+    def _make_post_request(self, url_params: dict, ret_type: models.Root, post_body: dict = None) -> Requester:
         params = self.api_info._create_default_params(url_params)
-        endpoint = self.url.get_endpoint(ret_type.ApiProperties.endpoint)
+        endpoint = self.url.get_endpoint(ret_type.APIProperties.endpoint)
         return Requester(HttpVerbs.post, self.session, endpoint, params, ret_type, post_body)
     
-    def _make_delete_request(self, url_params: dict, ret_type: Root, body: dict = None) -> Requester:
+    def _make_delete_request(self, url_params: dict, ret_type: models.Root, body: dict = None) -> Requester:
         params = self.api_info._create_default_params(url_params)
-        endpoint = self.url.get_endpoint(ret_type.ApiProperties.endpoint)
+        endpoint = self.url.get_endpoint(ret_type.APIProperties.endpoint)
         return Requester(HttpVerbs.delete, self.session, endpoint, params, ret_type, body)
 
-    def get_sites(self) -> ApiResponse:
+    def get_sites(self) -> ApiResponse[models.GetSitesResponse]:
         '''
         GetSitesAPI - Returns a list of sites for your organization (by site_name in ascending order).
         
@@ -260,7 +256,7 @@ class SystemApiClient:
     
     def get_activity_detail(self, activity_id: int) -> ApiResponse:
         endpoint = f"activities/{activity_id}"
-        models.GetActivityDetailResponse.ApiProperties.endpoint = endpoint
+        models.GetActivityDetailResponse.APIProperties.endpoint = endpoint
         request = self._make_get_request(None, models.GetActivityDetailResponse)
         return request()
 
@@ -274,7 +270,7 @@ class SystemApiClient:
         return request()
     
     def get_activity_fees(self, activity_id: int) -> ApiResponse:
-        models.GetActivityFeesResponse.ApiProperties.endpoint = f"activities/{activity_id}/fees"
+        models.GetActivityFeesResponse.APIProperties.endpoint = f"activities/{activity_id}/fees"
         request = self._make_get_request(None, models.GetActivityFeesResponse)
         return request()
     
@@ -480,7 +476,7 @@ class SystemApiClient:
             self,
             facility_id: int
     ) -> ApiResponse:
-        props = models.GetFacilityDetailResponse.ApiProperties
+        props = models.GetFacilityDetailResponse.APIProperties
         props.endpoint = props.endpoint.format(facility_id=facility_id)
         request = self._make_get_request(None, models.GetFacilityDetailResponse)
         return request()
@@ -514,7 +510,7 @@ class SystemApiClient:
             The default facility opening/closing hours and facility open/close hours during the specified date range.
         '''
         request_params = locals()
-        models.GetFacilityOpenHoursResponse.ApiProperties.endpoint.format(facility_id)
+        models.GetFacilityOpenHoursResponse.APIProperties.endpoint.format(facility_id)
         request = self._make_get_request(request_params, models.GetFacilityOpenHoursResponse)
         return request()
     

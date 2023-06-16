@@ -1,5 +1,5 @@
-from api_client.models.base import Root, Body
-from datetime import datetime, date
+from api_client.models.base import Root, Body, ResponseTypes
+from datetime import datetime
 
 
 
@@ -39,7 +39,8 @@ class CustomQuestion(Body):
 class GetCustomQuestionsResponse(Root):
     body: list[CustomQuestion]
 
-    class ApiProperties:
+    class APIProperties:
        paginated = False
        sortable = False
        endpoint = 'customquestions'
+       response_type = ResponseTypes.LIST
