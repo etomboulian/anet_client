@@ -1,22 +1,29 @@
 from typing import TypeVar, Generic
 
-from api_client.models.base import Root, PageInfo
+from api_client.models.base import Root, PageInfo, ResponseTypes
+
 
 ReturnModelType = TypeVar("ReturnModelType", bound=Root)
 class ApiResponse(Generic[ReturnModelType]):
     def __init__(self, requester, response_object: ReturnModelType) -> None:
-        self.data = response_object
-        self.headers = response_object.headers
-        self.body = response_object.body
+        self.response = response_object
         self.requester = requester
+        self.data = self.response.body
 
-    def request_next_page(self):
-        pass
+    @property
+    def data(self):
+        match self.response.APIProperties.response_type:
+            case ResponseTypes.NONE:
+                return None
+            case ResponseTypes.SINGLE:
+                return self._data[0]
+            case ResponseTypes.LIST:
+                return self._data
     
-    # Call next pages using the iterator pattern
-    def __iter__(self):
-        return self.data
-    
-    def __next__(self):
-        return self.requester.request_next_page()
-    
+    @data.setter
+    def data(self, val):
+        self._data = val
+
+
+    def get_next_page(self):
+        return self.requester.get_next_page()
