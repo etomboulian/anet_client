@@ -48,8 +48,9 @@ class Requester(Generic[ReturnModelType]):
     def __call__(self):
         headers = self.prep_headers()
         
-        response = self.session.request(self.method, self.endpoint, params=self.params, headers=headers, json=self.post_body, proxies=burp, verify=False)
+        response = self.session.request(self.method, self.endpoint, params=self.params, headers=headers, json=self.post_body,  verify=False)
         print(response.request.path_url)
+        print(response.request.url)
         # if for some reason the result is not Json try 10 more times to get JSON before returning None
         counter = 0
         while not is_json(response.content):
